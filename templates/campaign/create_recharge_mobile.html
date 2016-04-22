@@ -1,0 +1,184 @@
+<div class="pull-left breadcrumb_admin clear_both">
+	<div class="pull-left page_title theme_color">
+		<h1>Campaign</h1>
+
+		<h2 class="">Create Recharge</h2>
+	</div>
+	<div class="pull-right">
+		<ol class="breadcrumb">
+			<li><a href="#">Recharge</a></li>
+			<li><a href="{{ aUrl }}">Create Recharge</a></li>
+
+		</ol>
+	</div>
+</div>
+<div class="container clear_both padding_fix">
+<div class="block-web">
+<div class="header">
+	<h3 class="content-header">Create Recharge</h3>
+</div>
+<div class="panel-success hidden">
+	<div class="alert alert-success fade in ">
+		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+		<p><i class="fa fa-info-circle"></i> {{ message }}</p>
+	</div>
+</div>
+<div class="panel-danger hidden">
+	<div class="alert alert-danger fade in ">
+		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+		<p><i class="fa fa-warning"></i> {{ message }}</p>
+	</div>
+</div>
+<div class="porlets-content">
+<form method="post" action="{{ aUrl }}" id="camp_frm"  class="form-horizontal"
+      role="form">
+{% csrf_token %}
+<div class="form-group">
+	<label for="campaign_name" class="col-sm-3 control-label">Mobile Number</label>
+
+	<div class="col-sm-5">
+		{{ form.mobile_number }}
+		{#                        <input type="text" class="form-control parsley-validated"#}
+		{#                               id="campaign_name" required="" name="campaign_name" placeholder="Campaign Name">#}
+	</div>
+	<div class="col-sm-4">
+		{% for error in form.mobile_number.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+{#{% if session_data.role == "admin" %}#}
+<div class="form-group">
+	<label for="camp_type" class="col-sm-3 control-label">Select Type</label>
+
+	<div class=" col-sm-5">
+		{{ form.recharge_type }}
+
+	</div>
+	<div class="col-sm-4">
+		{% for error in form.recharge_type.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label for="camp_type" class="col-sm-3 control-label">Select Circle</label>
+
+	<div class=" col-sm-5">
+		{{ form.circle }}
+
+	</div>
+	<div class="col-sm-4">
+		{% for error in form.circle.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label for="camp_type" class="col-sm-3 control-label">Select Operator</label>
+
+	<div class=" col-sm-5">
+		{{ form.operator }}
+
+	</div>
+	<div class="col-sm-4">
+		{% for error in form.operator.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label for="camp_type" class="col-sm-3 control-label">Amount</label>
+
+	<div class=" col-sm-5">
+		{{ form.amount }}
+
+	</div>
+	<div class="col-sm-4">
+		{% for error in form.amount.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+{#{% endif %}#}
+<!--/form-group-->
+
+<!--/form-group-->
+
+<!--/form-group-->
+
+
+
+
+<!--/form-group-->
+
+
+
+
+
+<!--/form-group-->
+<div class="form-group">
+	<div class="col-sm-offset-3 col-sm-10">
+		<input type="button" data-target="#myModal" data-toggle="modal" class="btn btn-primary mb10"
+		       value="Submit">
+
+		<button type="reset" class="btn btn-default">Clear</button>
+	</div>
+</div>
+<!--/form-group-->
+</form>
+
+</div>
+<div class="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Create New Recharge</h4>
+			</div>
+			<div class="modal-body"> Are you sure you want to create new recharge?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" id="submit_frm" class="btn btn-primary">Create</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/porlets-content-->
+</div>
+
+
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+        $("a[href='{{ session_data.current_url }}']").parent("ul").addClass("opened");
+		var isAcceptableKey = /[0-9,-]*/;
+
+
+
+		var error = {{ error }};
+		var success ={{ success }};
+
+		console.log(error);
+		console.log(success);
+
+		if (error) {
+			$(".panel-danger").removeClass('hidden');
+		}
+		if (success) {
+			$(".panel-success").removeClass('hidden');
+		}
+		$('#submit_frm').click(function () {
+			$('#camp_frm').submit();
+		});
+    })
+
+</script>

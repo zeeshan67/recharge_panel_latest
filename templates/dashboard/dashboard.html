@@ -1,0 +1,157 @@
+{% load staticfiles %}
+<style>
+
+
+    .multi-stat-box .left {
+        float: none;
+        width: 40%;
+    }
+</style>
+<div class="pull-left breadcrumb_admin clear_both">
+    <div class="pull-left page_title theme_color">
+        <h1>Easy Recharge</h1>
+
+        <h2 class="">Dashboard</h2>
+    </div>
+    <div class="pull-right">
+        <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Dashboard</a></li>
+
+        </ol>
+    </div>
+</div>
+<div class="container clear_both padding_fix">
+    <div class="row">
+
+{#        <div class="col-sm-6 col-md-3">#}
+{#            <div class="information blue_info">#}
+{#                <div class="information_inner">#}
+{#                    <div class="info blue_symbols"><i class="fa fa-bullhorn icon"></i></div>#}
+{#                    <span>ACTIVE CAMPAIGNS</span>#}
+{##}
+{#                    <h4 class="bolded">5</h4>#}
+{##}
+{##}
+{#                    <b class="">#}
+{#                        <small>Total Active Campaigns</small>#}
+{#                    </b>#}
+{##}
+{##}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="col-sm-6 col-md-4">
+            <div class="information gray_info">
+                <div class="information_inner">
+                    <div class="info gray_symbols"><i class="fa fa-money icon"></i></div>
+                    <span>TOTAL CREDIT</span>
+
+                    <h4 class="bolded"><i class="fa fa-rupee"></i>{{ total_balance }}</h4>
+
+                    <b class="">
+                        <small>Total Balance.</small>
+                    </b>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="information red_info">
+                <div class="information_inner">
+                    <div class="info gray_symbols"><i class="fa fa-credit-card icon"></i></div>
+                    <span>TOTAL Recharge</span>
+
+                    <h4 class="bolded">{{ total_recharge }}</h4>
+
+                    <b class="">
+                        <small>Total recharge sent.</small>
+                    </b>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="information green_info">
+                <div class="information_inner">
+                    <div class="info green_symbols"><i class="fa fa-thumbs-o-up icon"></i></div>
+                    <span>TOTAL SUCCESS</span>
+
+                    <h4 class="bolded">{{ total_success }}</h4>
+
+                    <b class="">
+                        <small>Successfull recharge count</small>
+                    </b>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel default blue_title h2">
+                <div class="panel-heading">Quick<span class="semi-bold">View</span></div>
+                <div class="panel-body">
+                    <section class="panel default blue_title h2">
+                        {#                                        <div class="panel-heading">Left<span class="semi-bold"> Tabs</span></div>#}
+                        <div class="panel-body">
+                            <div id ="no_graph_data"></div>
+                            <div id="graph1" class=""></div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!--/block-web-->
+        </div>
+
+
+        <!--/col-md-12-->
+    </div>
+</div>
+{% csrf_token %}
+</div>
+{{ cdr_failed_data }}
+{{ cdr_success_data }}
+<script type="text/javascript">
+    $(function () {
+        var url = $(location).attr('href');
+
+        $("a[href='/dashboard']").parents("li").addClass("left_nav_active");
+{#        $('a[href="http://google.com"]');#}
+
+        $("#no_graph_data").block({ message: '<img src="{% static "images/Loader1.gif" %}" />', css: {
+            padding:        0,
+            margin:         0,
+            width:          '30%',
+            top:            '20%',
+            bottom:         '80%',
+            left:           '35%',
+            textAlign:      'center',
+            color:          '#fff',
+            border:         '3px solid #fff',
+            backgroundColor:'#fff',
+            cursor:         'wait'
+        }  });
+        var csrf = $('input[name=csrfmiddlewaretoken]').val();
+        $.post("{{ rUrl }}", {'csrfmiddlewaretoken': csrf}, function (data) {
+            console.log(data);
+            $("#no_graph_data").show()
+            var dates = [];
+            var success = [];
+            var failure = [];
+            var total_dialed = [];
+            $.each(data, function (key, value) {
+                dates.push(value['date']);
+                success.push(value['success']);
+                failure.push(value['failed']);
+{#                total_dialed.push(value['success'] + value['failed']);#}
+            });
+            {#            console.log(dates);#}
+            {#            console.log(success);#}
+            {#            console.log(failure);#}
+
+            $("#no_graph_data").hide()
+
+        })
+
+    });
+</script>
