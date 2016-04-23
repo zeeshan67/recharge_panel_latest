@@ -1,4 +1,5 @@
 __author__ = 'verna'
+import psycopg2
 
 post_url = "http://localhost:8003/api/user_recharge"
 operator_code_dict = {
@@ -11,7 +12,6 @@ operator_code_dict = {
                      "idea_postpaid":42,
                      "tata_docomo_postpaid":49,
                      "mts_prepaid":38,
-
                       "airtel_prepaid":1,
                       "aircel_prepaid":13,
                       "uninor_prepaid":12,
@@ -22,6 +22,24 @@ operator_code_dict = {
                       "reliance_cdma_prepaid":29,
                       "tata_docomo_prepaid":13,
                       "idea_prepaid":4,
-
-
                       }
+
+
+class Pool():
+    _instance = None
+    cursor = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Pool, cls).__new__(
+                                cls, *args, **kwargs)
+        return cls._instance
+
+    @property
+    def db(self):
+        if not self.cursor:
+            try:
+                conn=psycopg2.connect("host='localhost' dbname='recharge_db' user='postgres' password='root'")
+                self.cursor = conn.cursor()
+            except Exception as exc:
+                print "I am unable to connect to the database. %s"%exc.message
+        return self.cursor
