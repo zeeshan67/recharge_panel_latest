@@ -20,12 +20,14 @@ def add_user(request):
             user_name = request.POST['user_name']
             email_id = request.POST['email_id']
             mobile_number = request.POST['mobile_number']
-            password = hashlib.md5(request.POST['password'])
+            password = hashlib.md5(request.POST['password']).hexdigest()
+            credit = request.POST['credit']
             address = request.POST['address'] if request.POST['address'] else ''
             user_data = CreateUser(user_name=user_name,
                                    email_id=email_id,
                                    mobile_number=mobile_number,
                                    password=password,
+                                   credit=credit,
                                    address=address)
             user_data.save()
     except Exception as e:

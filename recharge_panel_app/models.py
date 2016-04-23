@@ -5,16 +5,18 @@ from recharge_panel_templates.config import Pool,operator_code_dict
 
 
 class CreateUser(models.Model):
-    db_table = 'users'
     user_name = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
+    password = models.CharField(max_length=100)
     email_id = models.CharField(max_length=30)
     mobile_number = models.CharField(max_length=30)
     address = models.CharField(max_length=30)
+    credit = models.FloatField()
 
     def __repr__(self):
         return self.name
 
+    class Meta:
+        db_table = 'user_master'
 
 def get_data(query_param):
     instance = Pool()

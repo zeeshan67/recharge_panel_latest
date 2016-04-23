@@ -17,12 +17,17 @@ class CreateUserForms(forms.Form):
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                          'title': 'Confirm Password'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'title': 'Address'}))
+    credit = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control', 'title': 'Float'}))
 
-    def clean_password(self):
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForms, self).__init__(*args, **kwargs)
+        self.fields['password'].required = False
+        self.fields['confirm_password'].required = False
+
+    def clean(self):
         print self.cleaned_data.get('password')
         password1 = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('confirm_password')
-        email = self.clean_data.get('email_id', '')
         if password1 and password1 != password2:
             raise forms.ValidationError("Passwords don't match")
 
