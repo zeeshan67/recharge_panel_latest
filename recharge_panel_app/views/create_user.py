@@ -17,7 +17,6 @@ def add_user(request):
         context_data['form'] = new_user_form
         if request.method == "POST":
             print request.POST, 'posttttttttttttttttttt'
-            new_user_form = user_form.CreateUserForms(request.POST)
             user_name = request.POST['user_name']
             email_id = request.POST['email_id']
             mobile_number = request.POST['mobile_number']

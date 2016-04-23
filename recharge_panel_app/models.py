@@ -1,9 +1,11 @@
 from django.db import models
+from recharge_panel_templates.config import Pool,operator_code_dict
 
 # Create your models here.
 
 
 class CreateUser(models.Model):
+    db_table = 'users'
     user_name = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
     email_id = models.CharField(max_length=30)
@@ -12,8 +14,6 @@ class CreateUser(models.Model):
 
     def __repr__(self):
         return self.name
-from recharge_panel_templates.config import Pool,operator_code_dict
-
 
 
 def get_data(query_param):

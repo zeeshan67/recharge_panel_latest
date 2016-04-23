@@ -18,7 +18,8 @@ class CreateUserForms(forms.Form):
                                                                          'title': 'Confirm Password'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'title': 'Address'}))
 
-    def clean(self):
+    def clean_password(self):
+        print self.cleaned_data.get('password')
         password1 = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('confirm_password')
         email = self.clean_data.get('email_id', '')
