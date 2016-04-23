@@ -16,12 +16,16 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from recharge_panel_app.views import views, create_campaign, create_user, dashboard
+from recharge_panel_app.views import views,create_campaign,dashboard,reports
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',dashboard.index, name='dashboard.index'),
     url(r'^dashboard/$', dashboard.index, name='dashboard.index'),
     url(r'^logout/$', views.logout, name='view.logout'),
+    url(r'^reports/$', reports.get_report, name='reports.get_report'),
+    url(r'^recharge_data/$', reports.recharge_data, name='reports.recharge_data'),
+
     # url(r'^get_recharge_counts/$', dashboard.get_recharge_counts, name='dashboard.get_recharge_counts'),
     url(r'^create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
     url(r'^campaign/create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),

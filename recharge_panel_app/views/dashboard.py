@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 import hashlib
 from django.conf import settings
-# import models
+from recharge_panel_app.models import get_data
 import requests
 import datetime
 from django.views.decorators.csrf import csrf_exempt
@@ -26,8 +26,9 @@ def index(request):
                                    'session_data': request.session, "success": "false", "error": "error",
                                    })
     request.session['role'] = 'user'
-    context_data['total_success'] = 1000
-    context_data['total_recharge'] = 1200
+    main_data = get_data({"query":"dashboard_data"})
+    context_data['total_success'] = main_data['total_success']
+    context_data['total_recharge'] = main_data['total_count']
     context_data['total_balance']  = 900
     print context_data
     template = loader.get_template('commons/index.html')
