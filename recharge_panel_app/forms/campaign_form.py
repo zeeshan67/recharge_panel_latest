@@ -3,8 +3,6 @@ __author__ = 'ashish'
 from django import forms
 
 
-
-
 class CreateCampaignForm(forms.Form):
     mobile_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','title': 'Mobile Number'}),min_length=10,
                                     max_length=12,

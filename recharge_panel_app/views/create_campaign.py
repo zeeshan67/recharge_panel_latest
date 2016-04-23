@@ -12,7 +12,8 @@ from django.shortcuts import render
 # from recharge_panel.config import logging
 import traceback,json
 from recharge_panel_app.forms import campaign_form
-from recharge_panel_templates.config import  operator_code_dict,post_url
+from recharge_panel_templates.config import operator_code_dict,post_url
+
 
 def create_recharge_mobile(request):
     url = "/create_recharge_mobile/"
@@ -40,7 +41,7 @@ def create_recharge_mobile(request):
                 mobile_number = request.POST['mobile_number']
                 circle = request.POST['circle']
                 operator = request.POST['operator']
-                amount =  request.POST['amount']
+                amount = request.POST['amount']
                 recharge_type = request.POST['recharge_type']
 
                 api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,
@@ -48,7 +49,7 @@ def create_recharge_mobile(request):
                               "username":"admin","user_id":1
                               }
                 print api_params
-                response = requests.post(post_url,json=api_params)
+                response = requests.post(post_url, json=api_params)
                 print response.text
                 context_data['success'] = "true"
                 message = 'Recharge request successfully sent.'

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from recharge_panel_app.views import views,create_campaign,dashboard
+from recharge_panel_app.views import views, create_campaign, create_user, dashboard
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -25,5 +25,6 @@ urlpatterns = [
     # url(r'^get_recharge_counts/$', dashboard.get_recharge_counts, name='dashboard.get_recharge_counts'),
     url(r'^create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
     url(r'^campaign/create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
+    url(r'^add_user$', create_user.add_user, name='create_user.add_user')
 
 ]
