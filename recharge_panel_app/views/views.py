@@ -29,7 +29,7 @@ def login(request):
                 username = request.POST['username']
                 password = request.POST['password']
                 request.session.set_expiry(2000)
-                if username == 'admin' and password == 'admin' :
+                if username == 'admin' and password == 'happypocket@123' :
                         #cache.set('get_data',None)
                         request.session['role'] = 'user'
                         request.session['username']= username
