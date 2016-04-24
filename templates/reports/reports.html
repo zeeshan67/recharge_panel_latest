@@ -1,0 +1,308 @@
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <!-- /.box-body -->
+                        <div class="tab-content">
+
+                            <div id="menu1" class="tab-pane fade in active">
+
+                                <div id="home" class="tab-pane fade in active">
+                                    <div class="form-horizontal col-xs-3" style="padding-bottom: 20px">
+                                        <label class=" control-label">From Date</label>
+
+                                        <div class="date">
+                                            <div class="input-group date" id="fromdateRangePicker">
+                                                <input type="text" id="from_date_id" class="form-control"
+                                                       name="fromdate"/>
+                                                <span class="input-group-addon add-on"><span
+                                                        class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-horizontal col-xs-3">
+                                        <label class=" control-label">To Date</label>
+
+                                        <div class=" date">
+
+                                            <span class="input-group  date" id="todateRangePicker">
+                                                <input type="text" id="to_date_id" class="form-control" name="todate"/>
+                                                <span class="input-group-addon add-on">
+                                                    <span
+                                                        class="glyphicon glyphicon-calendar">
+                                                        </span>
+                                                </span>
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary col-xs-1" style="margin-top: 27px;margin-left: 16px;"
+                                                        id="mis_request_search">Search
+                                    </button>
+{##}
+{#                                    <button type="button" class="btn btn-primary col-xs-1" style="margin-top: 27px;margin-left: 16px;"#}
+{#                                                        id="mis_request_download">Download#}
+{#                                    </button>#}
+
+                                </div>
+
+                                    <!-- /.box-header -->
+                                    <div class="form-horizontal col-xs-12">
+                                        <div class="box-body table-responsive">
+                                            <table id="mis_request_report" class="table table-bordered table-hover" width="100%">
+                                            </table>
+                                        </div>
+                                    </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div>
+<!-- ./wrapper -->
+
+
+{#<script src="{% static 'js/audio.min.js' %}" type="text/javascript"></script>#}
+
+<!-- page script -->
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+         $(".nav-tabs a").click(function () {
+            $(this).tab('show');
+        });
+
+        mis_request_log();
+
+        $('#fromdateRangePickerValidEntry').datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#todateRangePickerValidEntry')
+                .datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+
+
+       $('#fromdateRangePickerRandomiser').datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#todateRangePickerRandomiser')
+                .datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#fromdateRangePicker').datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#todateRangePicker')
+                .datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                })
+                .on('changeDate', function (e) {
+                    e.preventDefault();
+                    $('.datepicker').hide();
+                    // Revalidate the date field
+                    $('#dateRangeForm').formValidation('revalidateField', 'date');
+                });
+        $("#mis_request_search").click(function(){
+            mis_request_log();
+        })
+
+
+        $("#mis_request_download").click(function(){
+            var fromdatedetails = $("#from_date_id").val();
+            var todatedetails = $("#to_date_id").val();
+            alert("Your File is Being downloaded");
+            $.ajax({
+                url: "{{ '/mis_request_download/' }}",
+                data: { 'from_date': fromdatedetails, 'to_date': todatedetails},
+                type: 'post',
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    if(null != data['filepath']){
+                         var url = "{{ '/' }}csv_report/";
+                         console.log(data['filepath']);
+                        var new_window = window.open(url+data['filepath'], '_blank');
+
+                        new_window.focus();
+//                         window.location = url+data['filepath'];
+                    }
+                    else{
+                        alert('Download Report Failed! Kindly try again Later!');
+                    }
+                }
+        })
+
+    })
+
+        function mis_request_log() {
+        var fromdatedetails = $("#from_date_id").val();
+        var todatedetails = $("#to_date_id").val();
+
+
+         $("#mis_request_report").dataTable(
+                    {"aaSorting": [
+                        [1, "desc" ]
+                    ],
+                        "bServerSide": true,
+                        "sAjaxSource": "{{ '/recharge_data/' }}",
+                        "sServerMethod": "post",
+                        "bautoWidth": false,
+                        "bProcessing": true,
+                        "bSearchable":true,
+                        "iDisplayLength": 10,
+                        "bDestroy": true,
+                        "aoColumns": [
+                            {"sTitle": "Mobile Number", "mData": "mobile_number", "bSearchable": true},
+                            {"sTitle": "Date & Time of Recharge", "mData": "date_time"},
+                            {"sTitle": "Request Id", "mData": "request_id"},
+{#                            {"sTitle": "Transaction ID", "mData": "transaction_id"},#}
+                            {"sTitle": "Circle", "mData": "circle", "bSearchable": true},
+                            {"sTitle": "Operator", "mData": "operator"},
+
+                            {"sTitle": "recharge status", "mData": "recharge_status"},
+                            {"sTitle": "Amount", "mData": "amount"}
+                        ],
+                        "fnServerParams": function (aoData) {
+                        aoData.push({"name": "startDate", "value":fromdatedetails});
+                        aoData.push({"name": "endDate", "value": todatedetails});
+                        },
+                        "fnCreatedRow": function (nRow, aData, iDataIndex) {
+
+
+                        }
+
+
+                    }
+            );
+        }
+
+        //$("#registration_details").dataTable();
+    });
+</script>
+<!--    var dt = $("#registration_details").dataTable({
+        "bPaginate": true,
+        "sAjaxSource": "/registration_data/",
+        "bServerSide": true,
+        "sServerMethod": "post",
+        "bLengthChange": false,
+        "bFilter": true,
+        "bSort": true,
+        "iDisplayLength": 25,
+        "bProcessing": true,
+        "bInfo": true,
+
+        "bAutoWidth": false,
+        "async": true,
+
+        "aoColumns": [
+            {"sTitle": "Mobile Number", "mData": "mobile_number", "sWidth": "10%"},
+            {"sTitle": "Registration Date", "mData": "registration_date", "sWidth": "10%"},
+            {"sTitle": "OTP Number", "mData": "otp_number", "sWidth": "10%"},
+            {"sTitle": "Operator", "mData": "operator", "sWidth": "5%"},
+            {"sTitle": "Recharge Amount", "mData": "recharge_amount", "sWidth": "10%"}
+        ],
+        "fnCreatedRow": function (nRow,aData,iDataIndex) {
+            $('td:eq(0)',nRow).html(aData['mobile_number']);
+            $('td:eq(1)',nRow).html(aData['registration_date']);
+            $('td:eq(2)',nRow).html(aData['otp_number']);
+            $('td:eq(3)',nRow).html(aData['operator']);
+            $('td:eq(4)',nRow).html(aData['recharge_amount']);
+        }
+    });
+        return dt;
+    });
+</script-->

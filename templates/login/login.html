@@ -1,0 +1,93 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{ tname }}</title>
+    <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/animate.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/admin.css" %}" rel="stylesheet" type="text/css"/>
+</head>
+<body class="light_theme  fixed_header left_nav_fixed">
+<div class="wrapper">
+    <!--\\\\\\\ wrapper Start \\\\\\-->
+
+
+    <div class="login_page">
+        <div class="login_content">
+            <div class="panel-heading border login_heading">sign in now</div>
+            <div class="panel-danger hidden">
+                <div class="alert alert-danger fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <p>Please check your username and password</p>
+                </div>
+            </div>
+            <form role="form" class="form-horizontal" action="{{ aUrl }}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="User Name" id="inputEmail3" name="username"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-sm-10">
+                        <input type="password" placeholder="Password" id="inputPassword3" name="password"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-sm-10">
+                        <div class="checkbox checkbox_margin">
+                            <label class="lable_margin">
+                                <input type="checkbox" name="remember_me">
+
+                                <p class="pull-left"> Remember me</p></label>
+                            <a href="index.html">
+                                <button class="btn btn-primary pull-right" type="submit">Sign in</button>
+                            </a></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <a href="registration" class="btn btn-default pull-left">
+                            Sign Up
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<!--\\\\\\\ wrapper end\\\\\\-->
+<!-- Modal -->
+
+<!-- sidebar chats -->
+
+<!-- /sidebar chats -->
+
+
+<script src="{% static "js/jquery-2.1.0.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/common-script.js" %}"></script>
+<script src="{% static "js/jquery.slimscroll.min.js" %}"></script>
+<script>
+    $(document).ready(function () {
+
+        error =
+        {{ error }}
+        if (error) {
+            $(".panel-danger").removeClass('hidden')
+        }
+
+    });
+</script>
+</body>
+</html>

@@ -20,9 +20,11 @@ from recharge_panel_app.views import views,create_campaign,dashboard,reports
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$',dashboard.index, name='dashboard.index'),
+    url(r'^$',views.login, name='views.login'),
     url(r'^dashboard/$', dashboard.index, name='dashboard.index'),
     url(r'^logout/$', views.logout, name='view.logout'),
+    url(r'^login/$', views.login, name='view.login'),
+    url(r'^logout/login/$', views.login, name='view.login'),
     url(r'^reports/$', reports.get_report, name='reports.get_report'),
     url(r'^recharge_data/$', reports.recharge_data, name='reports.recharge_data'),
 
