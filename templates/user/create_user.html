@@ -30,7 +30,7 @@
 	</div>
 </div>
 <div class="porlets-content">
-<form method="post" action="{{ aUrl }}" id="camp_frm"  class="form-horizontal"
+<form method="post" action="{{ aUrl }}" id="usr_frm"  class="form-horizontal"
       role="form">
 {% csrf_token %}
 <div class="form-group">
@@ -40,7 +40,7 @@
 		{{ form.user_name }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.mobile_number.errors %}
+		{% for error in form.user_name.errors %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
@@ -53,7 +53,7 @@
 		{{ form.email_id }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.recharge_type.errors %}
+		{% for error in form.email_id.errors %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
@@ -67,7 +67,7 @@
 		{{ form.mobile_number }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.circle.errors %}
+		{% for error in form.mobile_number.errors %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
@@ -81,7 +81,7 @@
 		{{ form.password }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.operator.errors %}
+		{% for error in form.password.errors %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
@@ -95,16 +95,57 @@
 		{{ form.confirm_password }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.amount.errors %}
+        {%  for error in form.non_field_errors  %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
 </div>
 <div class="form-group">
-    <label class="col-sm-3 control-label">Credits</label>
+	<label class="col-sm-3 control-label">Select Role</label>
+
+	<div class=" col-sm-5">
+		{{ form.user_role }}
+	</div>
+	<div class="col-sm-4">
+        {% for error in form.user_role.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">Credits Assigned</label>
 
     <div class=" col-sm-5">
-		{{ form.credit }}
+		{{ form.credit_assigned }}
+	</div>
+    <div class="col-sm-4">
+		{% for error in form.credit_assigned.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">Credits Used</label>
+
+    <div class=" col-sm-5">
+		{{ form.credit_used }}
+	</div>
+    <div class="col-sm-4">
+		{% for error in form.credit_used.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">Credits Available</label>
+
+    <div class=" col-sm-5">
+		{{ form.credit_available }}
+	</div>
+    <div class="col-sm-4">
+		{% for error in form.credit_available.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
 	</div>
 </div>
 <div class="form-group">
@@ -114,7 +155,7 @@
 		{{ form.address }}
 	</div>
 	<div class="col-sm-4">
-		{% for error in form.amount.errors %}
+		{% for error in form.address.errors %}
 			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
 		{% endfor %}
 	</div>
@@ -144,7 +185,7 @@
 			<div class="modal-body"> Are you sure you want to Add New User?</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" id="submit_frm" class="btn btn-primary">Create</button>
+				<button type="button" id="submit_frm_usr" class="btn btn-primary">Create</button>
 			</div>
 		</div>
 	</div>
@@ -174,8 +215,8 @@
 		if (success) {
 			$(".panel-success").removeClass('hidden');
 		}
-		$('#submit_frm').click(function () {
-			$('#camp_frm').submit();
+		$('#submit_frm_usr').click(function () {
+			$('#usr_frm').submit();
 		});
     })
 

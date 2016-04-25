@@ -21,15 +21,16 @@ import traceback
 
 def index(request):
     request.session.set_expiry(3600)
+    user_id = request.session.get('user_id',0)
     context_data = RequestContext(request,
                                   {'body_template': 'dashboard/dashboard.html',"aUrl":"/get_recharge_counts",
                                    'session_data': request.session, "success": "false", "error": "error",
                                    })
-    request.session['role'] = 'user'
-    main_data = get_data({"query":"dashboard_data"})
+    # request.session['role'] = 'admin'
+    main_data = get_data({"query":"dashboard_data","user_id":user_id,"user_role":request.session.get('role',None)})
     context_data['total_success'] = main_data['total_success']
     context_data['total_recharge'] = main_data['total_count']
-    context_data['total_balance']  = 900
+    context_data['total_balance']  = main_data['total_balance']
     print context_data
     template = loader.get_template('commons/index.html')
     return HttpResponse(template.render(context_data))

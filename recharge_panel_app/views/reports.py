@@ -21,7 +21,7 @@ def get_report(request):
                                   {'body_template': 'reports/reports.html',"aUrl":"/recharge_view_plan",
                                    'session_data': request.session, "success": "false", "error": "error",
                                    })
-    request.session['role'] = 'user'
+    # request.session['role'] = 'user'
     template = loader.get_template('commons/index.html')
     return HttpResponse(template.render(context_data))
 
@@ -45,7 +45,7 @@ def recharge_data(request):
         print "start date %s"%display_start
 
         if request.is_ajax() or request.method == 'POST':
-                    main_data = get_data({'query':'recharge_data','event_start_date':event_start_date,
+                    main_data = get_data({'user_id':request.session['user_id'],'user_role':request.session['role'],'query':'recharge_data','event_start_date':event_start_date,
                                                'event_end_date':event_end_date,'limit':display_end,
                                                'offset':display_start,'search':search})
                     if isinstance(main_data,dict):

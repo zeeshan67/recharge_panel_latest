@@ -76,7 +76,7 @@
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="glyphicon glyphicon-user"></i>
-						<span>Admin <i class="caret"></i></span>
+						<span>{{ session_data.username }} <i class="caret"></i></span>
 					</a>
 					<ul class="dropdown-menu">
 						<!-- User image -->
@@ -148,18 +148,19 @@
 								<i class="fa fa-lg fa-briefcase"></i> <span>Recharge Reports</span>
 							</a>
 			</li>
-{#            <li class="treeview">#}
-{#							<a href="#">#}
-{#								<i class="fa fa-lg fa-users"></i> <span>User Management</span>#}
-{#                                <span class="plus"><i class="fa fa-lg fa-plus-circle"></i></span>#}
-{#							</a>#}
-{#                            <ul class="treeview-menu">#}
-{#                                <li><a href="/add_user"><i class="fa fa-lg fa-plus"></i> Add User</a></li>#}
-{#                                <li><a href="#"><i class="fa fa-lg fa-eye theme_color"></i>View User</a></li>#}
-{##}
-{#                            </ul>#}
-{#			</li>#}
+            {% if session_data.role == "distributor" or session_data.role == "admin" %}
+            <li class="treeview">
+							<a href="#">
+								<i class="fa fa-lg fa-users"></i> <span>User Management</span>
+                                <span class="plus"><i class="fa fa-lg fa-plus-circle"></i></span>
+							</a>
+                            <ul class="treeview-menu">
+                                <li><a href="/add_user"><i class="fa fa-lg fa-plus"></i> Add User</a></li>
+                                <li><a href="#"><i class="fa fa-lg fa-eye theme_color"></i>View User</a></li>
 
+                            </ul>
+			</li>
+            {% endif %}
 		   </ul>
 		</section>
 		<!-- /.sidebar -->

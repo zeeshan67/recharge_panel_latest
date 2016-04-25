@@ -9,8 +9,14 @@ class CreateUser(models.Model):
     password = models.CharField(max_length=100)
     email_id = models.CharField(max_length=30)
     mobile_number = models.CharField(max_length=30)
+    active = models.BooleanField(default=True)
+    user_role = models.CharField(max_length=30)
     address = models.CharField(max_length=30)
+    credit_assigned = models.FloatField()
+    credit_used = models.FloatField()
+    credit_available = models.FloatField()
     credit = models.FloatField()
+    parent_id = models.IntegerField()
 
     def __repr__(self):
         return self.name
@@ -32,9 +38,11 @@ def get_data(query_param):
             where_clause += " and date_time <='%s'"%query_param['event_end_date']
         if query_param.get("search",""):
             where_clause += " and (request_id ilike '%"+(query_param['search'])+"%' or cast(mobile_number as varchar) ilike '%"+(query_param['search'])+"%') "
+        if query_param.get('user_role',0) and query_param.get('user_role',0) != 'admin':
+            where_clause += " and user_id=%s"%int(query_param.get('user_id',0))
         final_clause = where_clause+" order by id desc limit %s offset %s"%(query_param['limit'],query_param['offset'])
         sql_query = sql_query+final_clause
-        print sql_query
+        print "xxxxxxxxxxxxxx",query_param.get('user_role',0)
         cursor.execute(sql_query)
         records = cursor.fetchall()
         for list_value in records:
@@ -58,13 +66,40 @@ def get_data(query_param):
         return {"total_count":total_record,"final_data":final_data}
         # print records
     if query_param['query'] == 'dashboard_data':
-        cursor.execute("select count(*),recharge_status from recharge_reports where recharge_status is not null group by recharge_status;")
+        where_clause = 'select count(*),recharge_status from recharge_reports where recharge_status is not null'
+        if query_param.get('user_role',0) and query_param.get('user_role',0) != 'admin':
+            where_clause += " and user_id=%s"%int(query_param.get('user_id',0))
+        cursor.execute("%s group by recharge_status;"%where_clause)
         result = cursor.fetchall()
         total_success = 0
         total_count = 0
+        total_balance = 0
+        print query_param.get('user_id',0)
         for values in result:
             print values
             if values[1] == 'SUCCESS':
                 total_success += values[0]
             total_count += values[0]
-        return {"total_count":total_count,"total_success":total_success}
+        cursor.execute("select credit_available from user_master where id = %s"%int(query_param.get('user_id',0)))
+        for iterate_values in cursor.fetchall():
+            total_balance = iterate_values[0]
+        return {"total_count":total_count,"total_success":total_success,"total_balance":total_balance}
+
+def verify_user(**kwargs):
+    instance = Pool()
+    cursor = instance.db
+    cursor.execute("select user_role,credit_used,credit_available,id,parent_id from user_master where active=True and user_name='%s' and password = '%s'"%(kwargs['username'],kwargs['password']))
+    result = cursor.fetchall()
+    for values in result:
+        print values
+        return {"is_verified":1,"role":values[0],"credit_used":values[1],"credit_available":values[2],"user_id":values[3],'parent_id':values[4]}
+    return  {"is_verified":0,"role":'guest'}
+
+def check_user_exists(query_param):
+    instance = Pool()
+    cursor = instance.db
+    cursor.execute("select id from user_master where user_name = '%s' ;"%query_param['user_name'])
+    result = cursor.fetchall()
+    for values in result:
+        return {"is_exists":1}
+    return {"is_exists":0}

@@ -28,7 +28,7 @@ def create_recharge_mobile(request):
 
     context_data = RequestContext(request,
                                   {'body_template': 'campaign/create_recharge_mobile.html', 'aUrl': url,
-                                   'session_data': request.session, "success": "false", "error": "error",
+                                   'session_data': request.session, "success": "false", "error": "false",
                                    "scripts": script_list})
     try:
         context_data['form'] = new_camp_form
@@ -43,16 +43,22 @@ def create_recharge_mobile(request):
                 operator = request.POST['operator']
                 amount = request.POST['amount']
                 recharge_type = request.POST['recharge_type']
-
-                api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,
-                              "amount":amount,"operator_code":operator_code_dict['%s_%s'%(operator,recharge_type)],
-                              "username":"admin","user_id":1
-                              }
-                print api_params
-                response = requests.post(post_url, json=api_params)
-                print response.text
-                context_data['success'] = "true"
-                message = 'Recharge request successfully sent.'
+                credit_used = request.session['credit_used']
+                credit_available = request.session['credit_available']
+                print amount,credit_used,credit_available
+                if float(amount) <= float(credit_available-credit_used):
+                    api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,
+                                  "amount":amount,"operator_code":operator_code_dict['%s_%s'%(operator,recharge_type)],
+                                  "username":request.session['username'],"user_id":request.session['user_id'],"credit_available":credit_available,"credit_used":credit_used
+                                  }
+                    print api_params
+                    response = requests.post(post_url, json=api_params)
+                    print response.text
+                    context_data['success'] = "true"
+                    message = "Recharge request successfully sent."
+                else:
+                    message = "Don't have enough credits."
+                    context_data['error'] = "true"
             else:
                 context_data['form'] = new_camp_form
         context_data['message'] = message
