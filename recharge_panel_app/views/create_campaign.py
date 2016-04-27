@@ -57,7 +57,7 @@ def create_recharge_mobile(request):
                     try:
                         response = requests.post(post_url, json=api_params)
                         print response.text,type(response.text)
-                        api_response = eval(response)
+                        api_response = eval(str(response.text))
                         if api_response['recharge_status'] == 'SUCCESS':
                             context_data['success'] = "true"
                             message = "Recharge Successfull.Request Id,Mobile Number,Amount  %s"%(api_response['request_id'],mobile_number,amount)
