@@ -54,8 +54,8 @@ def create_recharge_mobile(request):
                     print api_params
                     try:
                         response = requests.post(post_url, json=api_params)
-                        print response.text
-                        api_response = response.json()
+                        print response.text,type(response.text)
+                        api_response = eval(response)
                         if api_response['recharge_status'] == 'SUCCESS':
                             context_data['success'] = "true"
                             message = "Recharge Successfull.Request Id,Mobile Number,Amount  %s"%(api_response['request_id'],mobile_number,amount)
@@ -63,6 +63,7 @@ def create_recharge_mobile(request):
                             context_data['error'] = "true"
                             message = "Error while doing recharge,please contact admin. Request Id,Mobile Number,Amount  %s"%(api_response['request_id'],mobile_number,amount)
                     except Exception as exc:
+                        print "eror %s"%exc.message
                         context_data['error'] = "true"
                         message = "Error while doing recharge,please contact admin."
                 else:
