@@ -31,6 +31,7 @@ def get_data(query_param):
     if query_param['query'] == 'recharge_data':
         where_clause = ''
         final_data = []
+        cursor.execute("SET time zone 'Asia/Calcutta';")
         sql_query = "select mobile_number,request_id,circle,operator_code,date_time,recharge_status,remark,balance,amount from recharge_reports where 1=1 " ;
         if query_param.get("event_start_date",''):
             where_clause += " and date_time >='%s'"%query_param['event_start_date']
