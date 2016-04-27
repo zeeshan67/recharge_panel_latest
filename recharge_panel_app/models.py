@@ -97,7 +97,7 @@ def verify_user(**kwargs):
 def get_user_credits(user_id):
     instance = Pool()
     cursor = instance.db
-    cursor.execute("select credit_used,credit_available from user_master where active=True and user_id=%s"%(user_id))
+    cursor.execute("select credit_used,credit_available from user_master where active=True and id=%s"%(user_id))
     result = cursor.fetchall()
     for values in result:
         print values
