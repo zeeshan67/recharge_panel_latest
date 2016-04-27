@@ -52,10 +52,19 @@ def create_recharge_mobile(request):
                                   "username":request.session['username'],"user_id":request.session['user_id'],"credit_available":credit_available,"credit_used":credit_used
                                   }
                     print api_params
-                    response = requests.post(post_url, json=api_params)
-                    print response.text
-                    context_data['success'] = "true"
-                    message = "Recharge request successfully sent."
+                    try:
+                        response = requests.post(post_url, json=api_params)
+                        print response.text
+                        api_response = response.json()
+                        if api_response['status'] == 'SUCCESS':
+                            context_data['success'] = "true"
+                            message = "Recharge Successfull.Request Id,Mobile Number,Amount  %s"%(api_response['request_id'],mobile_number,amount)
+                        else:
+                            context_data['error'] = "true"
+                            message = "Error while doing recharge,please contact admin. Request Id,Mobile Number,Amount  %s"%(api_response['request_id'],mobile_number,amount)
+                    except Exception as exc:
+                        context_data['error'] = "true"
+                        message = "Error while doing recharge,please contact admin."
                 else:
                     message = "Don't have enough credits."
                     context_data['error'] = "true"

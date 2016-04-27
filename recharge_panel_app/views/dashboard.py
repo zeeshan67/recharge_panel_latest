@@ -27,7 +27,7 @@ def index(request):
                                    'session_data': request.session, "success": "false", "error": "error",
                                    })
     # request.session['role'] = 'admin'
-    main_data = get_data({"query":"dashboard_data","user_id":user_id,"user_role":request.session.get('role',None)})
+    main_data = get_data({"query":"dashboard_data","user_id":user_id,"parent_id":request.session.get('parent_id',None),"user_role":request.session.get('role',None)})
     context_data['total_success'] = main_data['total_success']
     context_data['total_recharge'] = main_data['total_count']
     context_data['total_balance']  = main_data['total_balance']

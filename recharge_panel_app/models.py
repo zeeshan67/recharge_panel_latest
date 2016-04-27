@@ -42,7 +42,6 @@ def get_data(query_param):
             where_clause += " and user_id=%s"%int(query_param.get('user_id',0))
         final_clause = where_clause+" order by id desc limit %s offset %s"%(query_param['limit'],query_param['offset'])
         sql_query = sql_query+final_clause
-        print "xxxxxxxxxxxxxx",query_param.get('user_role',0)
         cursor.execute(sql_query)
         records = cursor.fetchall()
         for list_value in records:
