@@ -13,6 +13,7 @@ from django.shortcuts import render
 import traceback,json
 from recharge_panel_app.forms import campaign_form
 from recharge_panel_templates.config import operator_code_dict,post_url
+from ..models import get_user_credits
 
 
 def create_recharge_mobile(request):
@@ -43,8 +44,9 @@ def create_recharge_mobile(request):
                 operator = request.POST['operator']
                 amount = request.POST['amount']
                 recharge_type = request.POST['recharge_type']
-                credit_used = request.session['credit_used']
-                credit_available = request.session['credit_available']
+                credit_result = get_user_credits(request.session['user_id'])
+                credit_used = credit_result['credit_used']
+                credit_available = credit_result['credit_available']
                 print amount,credit_used,credit_available
                 if float(amount) <= float(credit_available-credit_used):
                     api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,

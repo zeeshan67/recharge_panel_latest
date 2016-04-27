@@ -94,6 +94,16 @@ def verify_user(**kwargs):
         return {"is_verified":1,"role":values[0],"credit_used":values[1],"credit_available":values[2],"user_id":values[3],'parent_id':values[4]}
     return  {"is_verified":0,"role":'guest'}
 
+def get_user_credits(user_id):
+    instance = Pool()
+    cursor = instance.db
+    cursor.execute("select credit_used,credit_available from user_master where active=True and user_id=%s"%(user_id))
+    result = cursor.fetchall()
+    for values in result:
+        print values
+        return {"credit_used":values[0],"credit_available":values[1]}
+    return {"credit_used":0,"credit_available":0}
+
 def check_user_exists(query_param):
     instance = Pool()
     cursor = instance.db
