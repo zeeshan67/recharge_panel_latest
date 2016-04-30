@@ -7447,3 +7447,7 @@ select, input[type="file"] {
     padding: 10px 10px 10px 10px;
     text-align: center;
 }
+
+.skin-blue{
+    font: 15px;
+}
