@@ -1,0 +1,45 @@
+<div class="pull-left breadcrumb_admin clear_both">
+	<div class="pull-left page_title theme_color">
+		<h1>User</h1>
+
+		<h2 class="">View Users</h2>
+	</div>
+	<div class="pull-right">
+		<ol class="breadcrumb">
+			<li><a href="#">User</a></li>
+			<li><a href="{{ aUrl }}">View Users</a></li>
+
+		</ol>
+	</div>
+</div>
+<div class="container clear_both padding_fix">
+    <div class="block-web">
+        <div class="header">
+            <h3 class="content-header">View Users</h3>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" id="get_users">
+            <thead>
+                    <tr><th>View Users</th></tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+     $(document).ready(function() {
+         $('#get_users').dataTable( {
+             "processing": true,
+             "ajax": {
+                 "processing": true,
+                 "url": "{% url 'view_user' %}",
+                 "dataSrc": ""
+             },
+
+             "columns": [
+                     { "data": "fields.someAttr },
+                     { "data": "pk" }
+                 ]
+         });
+     });
+ </script>

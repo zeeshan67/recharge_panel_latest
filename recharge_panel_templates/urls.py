@@ -31,6 +31,7 @@ urlpatterns = [
     # url(r'^get_recharge_counts/$', dashboard.get_recharge_counts, name='dashboard.get_recharge_counts'),
     url(r'^create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
     url(r'^campaign/create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
-    url(r'^add_user$', create_user.add_user, name='create_user.add_user')
+    url(r'^add_user$', create_user.add_user, name='create_user.add_user'),
+    url(r'^view_user$', create_user.add_user, name='create_user.add_user')
 
 ]
