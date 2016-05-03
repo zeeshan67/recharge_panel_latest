@@ -17,29 +17,231 @@
         <div class="header">
             <h3 class="content-header">View Users</h3>
         </div>
-        <table cellpadding="0" cellspacing="0" border="0" id="get_users">
-            <thead>
-                    <tr><th>View Users</th></tr>
-            </thead>
+        <table class="table table-bordered table-hover" width="100%" id="get_users">
+
             <tbody>
             </tbody>
         </table>
     </div>
 </div>
+
+<div class="modal fade in col-sm-12" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content col-sm-12">
+            <form method="post" id="frm_edit" class="form form-horizontal" action="{{ aEditData }}">
+                {% csrf_token %}
+                <div class="modal-header col-sm-12">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Edit User Details</h4>
+                </div>
+
+                <div class="modal-body col-sm-12">
+                    <div class="col-lg-12">
+                        <div class="panel-danger hidden">
+                    <div class="alert alert-danger fade in">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <p id="error_msg">{{ msg }}</p>
+                    </div>
+                    </div>
+                    </div>
+
+                   <div class="col-sm-1"></div>
+                   <div class="col-sm-5">
+                       <div class="form-group">
+                            <input type="hidden" id="user_id" name="user_id" >
+                            <label class="control-label col-sm-4">User Name</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name='user_name' id="user_name" value="">
+                            </div>
+
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">Email Id</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name='email_id' id="email_id" value="">
+                            </div>
+
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">Mobile No</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"
+                                id="mobile_number" name="mobile_number" value="">
+                            </div>
+
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">Address</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="4" cols="20" name='address' id="address" value=""></textarea>
+
+                            </div>
+
+                       </div>
+
+                   </div>
+                   <div class="col-sm-5">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Credit Assigned</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"
+                                id="credit_assigned" name="credit_assigned" value="">
+                            </div>
+
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">Credit Available</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"
+                                id="credit_available" name="credit_available" value="">
+                            </div>
+
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">Credit Used</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"
+                                id="credit_used" name="credit_used" value="">
+                            </div>
+
+                       </div>
+
+
+
+
+                   </div>
+
+                    <div class="col-sm-1"></div>
+                </div>
+
+                <div class="modal-footer col-sm-12">
+                    <button type="button" class="btn btn-default" id="edit_modal_btn_close" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn_update" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
      $(document).ready(function() {
-         $('#get_users').dataTable( {
-             "processing": true,
-             "ajax": {
-                 "processing": true,
-                 "url": "{% url 'view_user' %}",
-                 "dataSrc": ""
-             },
+       $("#get_users").dataTable({
+                    "aaSorting": [
+                        [1, "desc" ]
+                    ],
+                        "bServerSide": true,
+                        "sAjaxSource": "{{ '/get_user_data/' }}",
+                        "sServerMethod": "post",
+                        "bautoWidth": false,
+                        "bProcessing": true,
+                        "bSearchable":true,
+                        "iDisplayLength": 10,
+                        "bDestroy": true,
+                        "aoColumns":[
+                            {"sTitle": "User Name", "mData": "user_name","bSearchable": true},
 
-             "columns": [
-                     { "data": "fields.someAttr },
-                     { "data": "pk" }
-                 ]
-         });
+                            {"sTitle": "Mobile Number", "mData": "mobile_number"},
+                            {"sTitle": "email_id", "mData": "email_id"},
+                            {"sTitle": "User Role", "mData": "user_role", "bSearchable": true},
+                            {"sTitle": "Credit Assigned", "mData": "credit_assigned"},
+
+                            {"sTitle": "Credit Used", "mData": "credit_used"},
+                            {"sTitle": "Credit Available", "mData": "credit_available"},
+                            {"sTitle": "", "mData": "user_id"}
+                        ],
+                        "fnServerParams": function (aoData) {
+{#                        aoData.push({"name": "startDate", "value":fromdatedetails});#}
+{#                        aoData.push({"name": "endDate", "value": todatedetails});#}
+                        },
+                        "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                            console.log(aData['user_id'])
+                           var action_html = '<a class="btn btn-primary btn-sm edit_btn glyphicon glyphicon-pencil"  data-target="#modalEditUser" data-toggle="modal" id="' +
+                    aData['user_id'] + '" title="Edit User"></a>';
+
+                           $('td:eq(7)', nRow).html(action_html);
+
+                        }
+
+
+                    }
+            );
+
+
+     $('table').on('click', '.edit_btn', function (event) {
+        var user_id = event.target.id;
+        var url = '{{ '/get_user_data/' }}';
+         $.post(url, {'user_id': user_id,"modal_use":1},
+        function (data) {
+            $('#user_name').val(data.user_name);
+            $('#mobile_number').val(data.mobile_number);
+            $('#address').val(data.address);
+            $('#credit_available').val(data.credit_available);
+            $('#credit_used').val(data.credit_used);
+            $('#credit_assigned').val(data.credit_assigned);
+            $('#email_id').val(data.email_id);
+            $('#user_id').val(data.user_id);
+
+
+        },"json");
+        });
+
+
+    $('#btn_update').click(function(){
+        var form_str = $( "#frm_edit" ).serializeArray();
+        form_str.push({name: 'st', value:'true'});
+        var url = '{{ "/edit_user_details/" }}';
+        $.post(url, form_str,
+        function (data) {
+            st = data.status;
+            msg = data.msg;
+            if (st == 'false')
+            {
+                if(data.user_name){
+                  $('#error_msg').html(data.user_name[0]);
+                }
+                else if(data.address){
+                    $('#error_msg').html(data.address[0]);
+                }
+                else if(data.email_id){
+                    $('#error_msg').html(data.email_id[0]);
+                }
+                else if(data.mobile_number){
+                    $('#error_msg').html(data.mobile_number[0]);
+                }
+                else if(data.credit_available){
+                    $('#error_msg').html(data.credit_available[0]);
+                }
+                else if(data.credit_assigned){
+                    $('#error_msg').html(data.credit_assigned[0]);
+                }
+                else if(data.credit_used){
+                    $('#error_msg').html(data.credit_used[0]);
+                }
+
+                else {
+                    $('#error_msg').html(msg);
+                }
+{#                $('#error_msg').html(msg);#}
+                $(".panel-danger").removeClass('hidden');
+                $('.alert').addClass('alert-danger');
+                $('.alert').removeClass('hidden');
+                $('.alert').removeClass('alert-success');
+            }
+            else
+            {
+                $('#error_msg').html(msg);
+                $(".panel-danger").removeClass('hidden');
+                $('.alert').removeClass('alert-danger');
+                $('.alert').addClass('alert-success');
+                $('.alert').removeClass('hidden');
+            }
+        },"json");
+    });
+
+
+        //$("#registration_details").dataTable();
+
      });
  </script>
