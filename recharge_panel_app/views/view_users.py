@@ -29,10 +29,11 @@ def get_user_data(request):
             search_param = {}
             if request.session['role'] == 'distributor':
                 search_param = {"parent_id":int(request.session['user_id'])}
-            if search.isdigit():
-                search_param.update({"mobile_number__icontains":str(search)})
-            else:
-                search_param.update({"user_name__icontains":str(search)})
+            if search:
+                if search.isdigit():
+                    search_param.update({"mobile_number__icontains":str(search)})
+                else:
+                    search_param.update({"user_name__icontains":str(search)})
             total_data = CreateUser.objects.filter(**search_param).count()
             main_data = CreateUser.objects.filter(**search_param)[int(display_start):int(display_end)]
             user_data = []
