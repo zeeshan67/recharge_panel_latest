@@ -47,8 +47,8 @@ def create_recharge_mobile(request):
                 credit_result = get_user_credits(request.session['user_id'])
                 credit_used = credit_result['credit_used']
                 credit_available = credit_result['credit_available']
-                print amount,credit_used,credit_available
-                if float(amount) <= float(credit_available-credit_used):
+
+                if float(amount) <= float(credit_available):
                     api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,
                                   "amount":amount,"operator_code":operator_code_dict['%s_%s'%(operator,recharge_type)],
                                   "username":request.session['username'],"user_id":request.session['user_id'],"credit_available":credit_available,"credit_used":credit_used
