@@ -18,8 +18,8 @@ class CreateUser(models.Model):
     credit = models.FloatField()
     parent_id = models.IntegerField()
 
-    def __repr__(self):
-        return self.name
+    # def __repr__(self):
+    #     return self.user_name
 
     class Meta:
         db_table = 'user_master'

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from recharge_panel_app.views import views, create_campaign, create_user, dashboard
+from recharge_panel_app.views import views, create_campaign, create_user, dashboard,view_users
 from recharge_panel_app.views import views,create_campaign,dashboard,reports
 
 urlpatterns = [
@@ -27,11 +27,14 @@ urlpatterns = [
     url(r'^logout/login/$', views.login, name='view.login'),
     url(r'^reports/$', reports.get_report, name='reports.get_report'),
     url(r'^recharge_data/$', reports.recharge_data, name='reports.recharge_data'),
+    url(r'^view_user/$',view_users.view_user,name='view_users.view_user'),
+    url(r'^get_user_data/$',view_users.get_user_data,name='view_users.get_user_data'),
 
+    url(r'^edit_user_details/$',view_users.edit_user_details,name='view_users.edit_user_details'),
     # url(r'^get_recharge_counts/$', dashboard.get_recharge_counts, name='dashboard.get_recharge_counts'),
     url(r'^create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
     url(r'^campaign/create_recharge_mobile/$', create_campaign.create_recharge_mobile, name='create_campaign.create_recharge_mobile'),
     url(r'^add_user$', create_user.add_user, name='create_user.add_user'),
-    url(r'^view_user$', create_user.add_user, name='create_user.add_user')
+
 
 ]
