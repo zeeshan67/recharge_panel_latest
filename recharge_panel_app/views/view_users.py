@@ -89,7 +89,6 @@ def edit_user_details(request):
             CreateUser.objects.filter(**search_param).update(user_name=user_name,email_id=email_id,
                                    mobile_number=mobile_number,
                                    credit_assigned=credit_assigned,
-                                   user_role=request.session['role'],
                                    credit_available=credit_available,
                                    credit_used=credit_used,
                                    address=address)
