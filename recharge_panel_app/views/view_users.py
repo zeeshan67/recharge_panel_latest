@@ -7,7 +7,6 @@ from recharge_panel_app.models import CreateUser
 from django.views.decorators.csrf import csrf_exempt
 from recharge_panel_app.models import CreateUser
 from recharge_panel_app.forms import user_form
-from django.db.models import Q
 import json
 def view_user(request):
     role = request.session['role']
@@ -28,7 +27,7 @@ def get_user_data(request):
             search = request.POST.get('sSearch', '.*')
             search_param = {}
             if request.session['role'] == 'distributor':
-                search_param = {"id":int(request.session['user_id'])}
+                search_param = {"parent_id":int(request.session['user_id'])}
             if search:
                 if search.isdigit():
                     search_param.update({"mobile_number__icontains":str(search)})
