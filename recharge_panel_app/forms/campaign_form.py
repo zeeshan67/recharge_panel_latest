@@ -63,7 +63,7 @@ class CreateCampaignForm(forms.Form):
                                            (("virgin_cdma"),("Virgin CDMA")),
                                            (("virgin_gsm"),("Virgin GSM")),
                                            (("virgin_gsm_special"),("Virgin GSM Special")),
-                                           (("mtnl_prepaid"),("MTNL")),
+                                           (("mtnl"),("MTNL")),
                                            (("mtnl_dl_special"),("MTNL DL special")),
                                            (("mtnl_dl_topup"),("MTNL DL topup")),
                                            (("mtnl_mumbai_special"),("MTNL Mumbai special")),
