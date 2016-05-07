@@ -31,6 +31,7 @@ def index(request):
     context_data['total_success'] = main_data['total_success']
     context_data['total_recharge'] = main_data['total_count']
     context_data['total_balance']  = main_data['total_balance']
+    context_data['total_credit']  = main_data['total_credit']
     print context_data
     template = loader.get_template('commons/index.html')
     return HttpResponse(template.render(context_data))

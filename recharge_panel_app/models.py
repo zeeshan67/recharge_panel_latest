@@ -80,10 +80,11 @@ def get_data(query_param):
             if values[1] == 'SUCCESS':
                 total_success += values[0]
             total_count += values[0]
-        cursor.execute("select credit_available from user_master where id = %s"%int(query_param.get('user_id',0)))
+        cursor.execute("select credit_assigned,credit_available from user_master where id = %s"%int(query_param.get('user_id',0)))
         for iterate_values in cursor.fetchall():
-            total_balance = iterate_values[0]
-        return {"total_count":total_count,"total_success":total_success,"total_balance":total_balance}
+            total_credit = iterate_values[0]
+            total_balance = iterate_values[1]
+        return {"total_count":total_count,"total_success":total_success,"total_balance":total_balance,"total_credit":total_credit}
 
 def verify_user(**kwargs):
     instance = Pool()
