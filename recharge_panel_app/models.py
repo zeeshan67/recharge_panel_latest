@@ -113,3 +113,19 @@ def check_user_exists(query_param):
     for values in result:
         return {"is_exists":1}
     return {"is_exists":0}
+
+
+def get_user_name(query_param):
+
+    try:
+        print(query_param)
+        instance = Pool()
+        cursor = instance.db
+        print(cursor)
+        cursor.execute("select user_name from user_master where id=%s"%int(query_param['parent_id']))
+        result = cursor.fetchall()
+        for values in result:
+            return {"user_name":values[0]}
+    except Exception as exc:
+        print "XXXXXXXXXXXXXXXXXXX%s"%exc.message
+    return {}

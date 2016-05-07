@@ -5,7 +5,7 @@ from django.http import HttpResponse,Http404
 # import hashlib
 from recharge_panel_app.models import CreateUser
 from django.views.decorators.csrf import csrf_exempt
-from recharge_panel_app.models import CreateUser
+from recharge_panel_app.models import CreateUser,get_user_name
 from recharge_panel_app.forms import user_form
 import json
 def view_user(request):
@@ -38,10 +38,13 @@ def get_user_data(request):
             user_data = []
             for values in main_data:
                 #,
+                query_param = {"parent_id":values.parent_id}
+                parent_user_data  = get_user_name(query_param)
                 user_data.append({"user_name":values.user_name,"email_id":values.email_id,"mobile_number":values.mobile_number,
                                  "credit_available":str(values.credit_available) if values.credit_available else 0,"credit_used":str(values.credit_used)
                     if values.credit_used else 0,
-                                 "credit_assigned":str(values.credit_assigned),"user_role":values.user_role,"user_id":values.id
+                                 "credit_assigned":str(values.credit_assigned),"user_role":values.user_role,"user_id":values.id,
+                                 "parent_id":parent_user_data['user_name']
                                   })
             response = dict(set=0, sEcho=request.POST['sEcho'], iTotalRecords=(total_data), iTotalDisplayRecords=total_data,
                                         aaData=user_data)
@@ -54,6 +57,7 @@ def get_user_data(request):
         user_data = {}
         for values in main_data:
                 #,
+
                 user_data = {"user_name":values.user_name,"email_id":values.email_id,"mobile_number":values.mobile_number,
                                  "credit_available":str(values.credit_available) if values.credit_available else 0,"credit_used":str(values.credit_used)
                     if values.credit_used else 0,"address":values.address,
@@ -72,7 +76,6 @@ def get_user_data(request):
 def edit_user_details(request):
     try:
         user_id = None
-        print "xxxxxxxxxxxxxxxxxxx",request.POST.get('user_id', None)
         if request.is_ajax():
             user_id = request.POST.get('user_id', None)
 

@@ -18,8 +18,6 @@ def add_user(request):
     try:
         context_data['form'] = new_user_form
         if request.method == "POST":
-            print "AAAAAAAAAAAA"
-            print "BBBBBBBBBBBBB%s"
             new_user_form = user_form.CreateUserForms(request.POST,user_role=role)
             print new_user_form
             if new_user_form.is_valid():
