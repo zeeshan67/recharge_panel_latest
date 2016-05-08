@@ -91,6 +91,7 @@ def edit_user_details(request):
             parent_user_credit_used = credit_result['credit_used']
             parent_user_credit_available = credit_result['credit_available']
             credit = request.POST.get('credit', None)
+            print "CCCCCCCCCCCCCCCCCCCCCCCCC %s"%parent_user_credit_available
             if float(credit) > float(parent_user_credit_available):
                 message = "Don't have enough credits."
                 res = dict(status='true', msg="Don't have enough credits.")
