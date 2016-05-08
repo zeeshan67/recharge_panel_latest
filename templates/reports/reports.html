@@ -269,8 +269,11 @@
         function mis_request_log() {
         var fromdatedetails = $("#from_date_id").val();
         var todatedetails = $("#to_date_id").val();
-        var selected_user_id = document.getElementById("user_list").value;
-
+        var selected_user_id = ''
+        var role = "{{ session_data.role  }}"
+        if (role == 'admin'){
+            selected_user_id = document.getElementById("user_list").value;
+        }
          $("#mis_request_report").dataTable(
                     {"aaSorting": [
                         [1, "desc" ]
