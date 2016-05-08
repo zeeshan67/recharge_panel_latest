@@ -38,7 +38,9 @@ def get_data(query_param):
         if query_param.get("event_end_date",''):
             where_clause += " and date_time <='%s'"%query_param['event_end_date']
         if query_param.get("search",""):
-            where_clause += " and (request_id ilike '%"+(query_param['search'])+"%' or cast(mobile_number as varchar) ilike '%"+(query_param['search'])+"%') "
+            where_clause += " and (request_id ilike '%"+(query_param['search'])+"%' " \
+                            "or recharge_status ilike '%"+(query_param['search'])+"%' "\
+                            "or cast(mobile_number as varchar) ilike '%"+(query_param['search'])+"%') "
         if query_param.get('user_role',0) and query_param.get('user_role',0) != 'admin':
             where_clause += " and user_id=%s"%int(query_param.get('user_id',0))
         if query_param.get('user_role',0) and query_param.get('user_role',0) == 'distributor':
