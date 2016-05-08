@@ -33,7 +33,7 @@ def add_user(request):
                 parent_user_credit_available = credit_result['credit_available']
                 print "CREDITS %s - %s"%(credit_available,parent_user_credit_available)
                 if float(credit_available) > float(parent_user_credit_available):
-                    context_data['error'] = True
+                    context_data['error'] = "true"
                     message = "Don't have enough credits."
                     context_data['form'] = new_user_form
                 else:
@@ -55,10 +55,10 @@ def add_user(request):
                                                                      credit_used=float(parent_user_credit_used)+float(credit_used),
                                                                      )
 
-                    context_data['success'] =True
+                    context_data['success'] = "true"
                     message = "User created successfully."
             else:
-                context_data['error'] =True
+                context_data['error'] = "true"
                 message = "Error while creating user."
                 context_data['form'] = new_user_form
             context_data['message'] = message
