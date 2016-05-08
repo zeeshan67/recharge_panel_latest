@@ -1,11 +1,41 @@
             <div class="row">
+
+                                  <div class="col-xs-12">
+
+
+            </div>
+
+
+
                 <div class="col-xs-12">
+
                     <div class="box">
                         <!-- /.box-body -->
+
+
                         <div class="tab-content">
 
                             <div id="menu1" class="tab-pane fade in active">
+                            {% if session_data.role == "admin" %}
+                                <div class="form-group row col-lg-offset-2">
+                                    <label  class="col-sm-4 control-label">Select User :  </label>
+                                    <div class="col-sm-3">
 
+                                        <select id="user_list" >
+                                            {% for key in list_of_users %}
+                                                {% for id, value in key.items %}
+                                                    <option  value="{{id}}" >{{ value }}</option>
+                                                {% endfor %}
+                                            {% endfor %}
+										</select>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        {% for error in usr_frm.lst_uname.errors %}
+                                            <span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
                                 <div id="home" class="tab-pane fade in active">
                                     <div class="form-horizontal col-xs-3" style="padding-bottom: 20px">
                                         <label class=" control-label">From Date</label>
@@ -19,6 +49,7 @@
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="form-horizontal col-xs-3">
                                         <label class=" control-label">To Date</label>
@@ -78,12 +109,19 @@
 <script type="text/javascript">
 
 
+
+
     $(document).ready(function () {
          $(".nav-tabs a").click(function () {
             $(this).tab('show');
         });
 
-        mis_request_log();
+        mis_request_log()
+
+        $('#user_list').change(function(){
+            var x = document.getElementById("user_list").value;
+            mis_request_log();
+    });
 
         $('#fromdateRangePickerValidEntry').datepicker({
                     format: 'mm/dd/yyyy',
@@ -231,7 +269,7 @@
         function mis_request_log() {
         var fromdatedetails = $("#from_date_id").val();
         var todatedetails = $("#to_date_id").val();
-
+        var selected_user_id = document.getElementById("user_list").value;
 
          $("#mis_request_report").dataTable(
                     {"aaSorting": [
@@ -259,6 +297,7 @@
                         "fnServerParams": function (aoData) {
                         aoData.push({"name": "startDate", "value":fromdatedetails});
                         aoData.push({"name": "endDate", "value": todatedetails});
+                            aoData.push({"name":"selected_user_id","value":selected_user_id})
                         },
                         "fnCreatedRow": function (nRow, aData, iDataIndex) {
 
