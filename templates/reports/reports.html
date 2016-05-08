@@ -116,11 +116,11 @@
             $(this).tab('show');
         });
 
-        mis_request_log();
-
+        mis_request_log()
 
         $('#user_list').change(function(){
             var x = document.getElementById("user_list").value;
+            mis_request_log();
     });
 
         $('#fromdateRangePickerValidEntry').datepicker({

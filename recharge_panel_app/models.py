@@ -44,7 +44,7 @@ def get_data(query_param):
         if query_param.get('user_role',0) and query_param.get('user_role',0) == 'distributor':
             where_clause += " or parent_id=%s"%int(query_param.get('user_id',0))
         if query_param.get('user_role',0) and query_param.get('user_role',0) == 'admin' and query_param.get('selected_user_id',''):
-            where_clause += " and id = %s or parent_id=%s"%(int(query_param['selected_user_id']),int(query_param['selected_user_id']))
+            where_clause += " and user_id in (select id from user_master where id = %s or parent_id=%s)"%(int(query_param['selected_user_id']),int(query_param['selected_user_id']))
         final_clause = where_clause+" order by id desc limit %s offset %s"%(query_param['limit'],query_param['offset'])
         sql_query = sql_query+final_clause
         cursor.execute(sql_query)
