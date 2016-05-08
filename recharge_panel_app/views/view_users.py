@@ -5,7 +5,7 @@ from django.http import HttpResponse,Http404
 # import hashlib
 from recharge_panel_app.models import CreateUser
 from django.views.decorators.csrf import csrf_exempt
-from recharge_panel_app.models import CreateUser,get_user_name
+from recharge_panel_app.models import CreateUser,get_user_name,get_user_credits
 from recharge_panel_app.forms import user_form
 import json
 def view_user(request):
