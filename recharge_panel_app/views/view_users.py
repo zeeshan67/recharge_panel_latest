@@ -90,25 +90,24 @@ def edit_user_details(request):
             credit_result = get_user_credits(request.session['parent_id'])
             parent_user_credit_used = credit_result['credit_used']
             parent_user_credit_available = credit_result['credit_available']
-
-            if float(credit_available) > float(parent_user_credit_available):
-                context_data['error'] = True
+            credit = request.POST.get('credit', None)
+            if float(credit) > float(parent_user_credit_available):
                 message = "Don't have enough credits."
-                context_data['form'] = new_user_form
                 res = dict(status='true', msg="Don't have enough credits.")
                 return HttpResponse(json.dumps(res))
+
             mobile_number = request.POST.get('mobile_number', None)
             search_param = {"id":int(request.POST.get("user_id",0))}
             CreateUser.objects.filter(**search_param).update(user_name=user_name,email_id=email_id,
                                    mobile_number=mobile_number,
-                                   credit_assigned=credit_assigned,
-                                   credit_available=credit_available,
+                                   credit_assigned=float(credit_assigned)+float(credit),
+                                   credit_available=float(credit_available)+float(credit),
                                    credit_used=credit_used,
                                    address=address)
-            search_param = {"id": int(request.POST.get("parent_id", 0))}
+            search_param = {"id": int(request.session['parent_id'])}
             CreateUser.objects.filter(**search_param).update(
-                credit_available=parent_user_credit_available - credit_available,
-                credit_used=parent_user_credit_used + credit_used,
+                credit_available=float(parent_user_credit_available) - float(credit),
+                credit_used=float(parent_user_credit_used) + float(credit),
             )
 
             res = dict(status='true', msg='User details has been successfully updated')
