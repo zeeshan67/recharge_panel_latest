@@ -49,6 +49,7 @@ def get_data(query_param):
         sql_query = sql_query+final_clause
         cursor.execute(sql_query)
         records = cursor.fetchall()
+
         for list_value in records:
             date_time = str(list_value[4]).split('.')[0]
             # print list_value[5],list_value[6]
