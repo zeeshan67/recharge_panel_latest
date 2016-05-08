@@ -1,7 +1,7 @@
 from django.template import RequestContext, loader
 from django.http import HttpResponse
 from recharge_panel_app.forms import user_form
-from recharge_panel_app.models import CreateUser
+from recharge_panel_app.models import CreateUser,get_user_credits
 import hashlib
 
 
@@ -29,20 +29,35 @@ def add_user(request):
                 credit_used = request.POST['credit_used']
                 credit_available = request.POST['credit_available']
                 address = request.POST['address'] if request.POST['address'] else ''
-                user_data = CreateUser(user_name=user_name,
-                                       email_id=email_id,
-                                       credit =credit_assigned,
-                                       mobile_number=mobile_number,
-                                       password=password,
-                                       parent_id= int(request.session['user_id']),
-                                       user_role = request.POST['user_role'],
-                                       credit_assigned=credit_assigned,
-                                       credit_available=credit_available,
-                                       credit_used=credit_used,
-                                       address=address)
-                user_data.save()
-                context_data['success'] =True
-                message = "User created successfully."
+                credit_result = get_user_credits(request.session['parent_id'])
+                parent_user_credit_used = credit_result['credit_used']
+                parent_user_credit_available = credit_result['credit_available']
+
+                if float(credit_available) > float(parent_user_credit_available):
+                    context_data['error'] = True
+                    message = "Don't have enough credits."
+                    context_data['form'] = new_user_form
+                else:
+                    user_data = CreateUser(user_name=user_name,
+                                           email_id=email_id,
+                                           credit =credit_assigned,
+                                           mobile_number=mobile_number,
+                                           password=password,
+                                           parent_id= int(request.session['user_id']),
+                                           user_role = request.POST['user_role'],
+                                           credit_assigned=credit_assigned,
+                                           credit_available=credit_available,
+                                           credit_used=credit_used,
+                                           address=address)
+                    user_data.save()
+                    search_param = {"id": int(request.POST.get("parent_id", 0))}
+                    CreateUser.objects.filter(**search_param).update(
+                                                                     credit_available=parent_user_credit_available-credit_available,
+                                                                     credit_used=parent_user_credit_used+credit_used,
+                                                                     )
+
+                    context_data['success'] =True
+                    message = "User created successfully."
             else:
                 context_data['error'] =True
                 message = "Error while creating user."
