@@ -87,7 +87,7 @@ def edit_user_details(request):
             credit_assigned = request.POST.get('credit_assigned', None)
             credit_available = request.POST.get('credit_available', None)
             credit_used = request.POST.get('credit_used', None)
-            credit_result = get_user_credits(request.session['parent_id'])
+            credit_result = get_user_credits(request.session['user_id'])
             parent_user_credit_used = credit_result['credit_used']
             parent_user_credit_available = credit_result['credit_available']
             credit = request.POST.get('credit', None)
@@ -105,8 +105,8 @@ def edit_user_details(request):
                                    credit_available=float(credit_available)+float(credit),
                                    credit_used=credit_used,
                                    address=address)
-            search_param = {"id": int(request.session['parent_id'])}
-            CreateUser.objects.filter(**search_param).update(
+            search_param_parent = {"id": int(request.session['user_id'])}
+            CreateUser.objects.filter(**search_param_parent).update(
                 credit_available=float(parent_user_credit_available) - float(credit),
                 credit_used=float(parent_user_credit_used) + float(credit),
             )

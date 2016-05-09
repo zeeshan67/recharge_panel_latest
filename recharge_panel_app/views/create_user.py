@@ -28,7 +28,7 @@ def add_user(request):
                 credit_used = request.POST['credit_used']
                 credit_available = request.POST['credit_available']
                 address = request.POST['address'] if request.POST['address'] else ''
-                credit_result = get_user_credits(request.session['parent_id'])
+                credit_result = get_user_credits(request.session['user_id'])
                 parent_user_credit_used = credit_result['credit_used']
                 parent_user_credit_available = credit_result['credit_available']
                 print "CREDITS %s - %s"%(credit_available,parent_user_credit_available)
@@ -49,7 +49,7 @@ def add_user(request):
                                            credit_used=credit_used,
                                            address=address)
                     user_data.save()
-                    search_param = {"id": int(request.session['parent_id'])}
+                    search_param = {"id": int(request.session['user_id'])}
                     CreateUser.objects.filter(**search_param).update(
                                                                      credit_available=float(parent_user_credit_available)-float(credit_available),
                                                                      credit_used=float(parent_user_credit_used)+float(credit_used),
