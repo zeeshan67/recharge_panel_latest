@@ -105,11 +105,12 @@ def edit_user_details(request):
                                    credit_available=float(credit_available)+float(credit),
                                    credit_used=credit_used,
                                    address=address)
-            search_param_parent = {"id": int(request.session['user_id'])}
-            CreateUser.objects.filter(**search_param_parent).update(
-                credit_available=float(parent_user_credit_available) - float(credit),
-                credit_used=float(parent_user_credit_used) + float(credit),
-            )
+            if int(user_id) != int(request.session['user_id']):
+                search_param_parent = {"id": int(request.session['user_id'])}
+                CreateUser.objects.filter(**search_param_parent).update(
+                    credit_available=float(parent_user_credit_available) - float(credit),
+                    credit_used=float(parent_user_credit_used) + float(credit),
+                )
 
             res = dict(status='true', msg='User details has been successfully updated')
             return HttpResponse(json.dumps(res))
