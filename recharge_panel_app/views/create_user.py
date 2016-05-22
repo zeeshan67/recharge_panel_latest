@@ -19,7 +19,6 @@ def add_user(request):
         context_data['form'] = new_user_form
         if request.method == "POST":
             new_user_form = user_form.CreateUserForms(request.POST,user_role=role)
-            print new_user_form
             if new_user_form.is_valid():
                 user_name = request.POST['user_name']
                 email_id = request.POST['email_id']
@@ -29,12 +28,14 @@ def add_user(request):
                 credit_used = request.POST['credit_used']
                 credit_available = request.POST['credit_available']
                 address = request.POST['address'] if request.POST['address'] else ''
-                credit_result = get_user_credits(request.session['parent_id'])
+                credit_result = get_user_credits(request.session['user_id'])
                 parent_user_credit_used = credit_result['credit_used']
                 parent_user_credit_available = credit_result['credit_available']
-
+                margin = credit_result['margin'] if credit_result['margin'] else 0.0
+                margin = float(margin)
+                print "CREDITS %s - %s"%(credit_available,parent_user_credit_available)
                 if float(credit_available) > float(parent_user_credit_available):
-                    context_data['error'] = True
+                    context_data['error'] = "true"
                     message = "Don't have enough credits."
                     context_data['form'] = new_user_form
                 else:
@@ -48,18 +49,19 @@ def add_user(request):
                                            credit_assigned=credit_assigned,
                                            credit_available=credit_available,
                                            credit_used=credit_used,
+                                           margin=request.POST['margin'],
                                            address=address)
                     user_data.save()
-                    search_param = {"id": int(request.POST.get("parent_id", 0))}
+                    search_param = {"id": int(request.session['user_id'])}
                     CreateUser.objects.filter(**search_param).update(
-                                                                     credit_available=parent_user_credit_available-credit_available,
-                                                                     credit_used=parent_user_credit_used+credit_used,
+                                                                     credit_available=float(parent_user_credit_available)-float(credit_available)+(margin/100.00*float(credit_available)),
+                                                                     credit_used=float(parent_user_credit_used)+float(credit_used),
                                                                      )
 
-                    context_data['success'] =True
+                    context_data['success'] = "true"
                     message = "User created successfully."
             else:
-                context_data['error'] =True
+                context_data['error'] = "true"
                 message = "Error while creating user."
                 context_data['form'] = new_user_form
             context_data['message'] = message

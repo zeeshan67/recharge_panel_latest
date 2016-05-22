@@ -37,15 +37,17 @@ operator_code_dict = {
                       "mtnl_mumbai_topup_prepaid": 56
                       }
 
+class SingletonPool(type):
+    def __call__(cls, *args, **kwargs):
+        try:
+            return cls.__instance
+        except AttributeError:
+            cls.__instance = super(SingletonPool, cls).__call__(*args, **kwargs)
+            return cls.__instance
 
 class Pool():
-    _instance = None
+    __metaclass__ = SingletonPool
     cursor = None
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(Pool, cls).__new__(
-                                cls, *args, **kwargs)
-        return cls._instance
 
     @property
     def db(self):
