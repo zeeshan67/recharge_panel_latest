@@ -32,16 +32,16 @@
       </div>
     </div>
     <h1 class="title">Login</h1>
-    <form role="form" action="{{ aUrl }}" method="post">
+    <form role="form" action="/" method="post">
       {% csrf_token %}
       <div class="input-container">
-        <input type="text" id="form-username" required="required"/>
-        <label for="form-username">Username</label>
+        <input type="text" id="user_name" required="required"/>
+        <label for="user_name">Username</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="password" id="form-password" required="required"/>
-        <label for="form-password">Password</label>
+        <input type="password" id="password" required="required"/>
+        <label for="password">Password</label>
         <div class="bar"></div>
       </div>
       <a href="index.html">
