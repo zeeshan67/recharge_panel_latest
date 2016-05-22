@@ -112,6 +112,19 @@
 		{% endfor %}
 	</div>
 </div>
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">Margin in (%)</label>
+
+    <div class=" col-sm-5">
+		{{ form.margin }}
+	</div>
+    <div class="col-sm-4">
+		{% for error in form.margin.errors %}
+			<span class="text-danger"><i class="fa fa-warning "> {{ error }}</i></span>
+		{% endfor %}
+	</div>
+</div>
 <div class="form-group">
     <label class="col-sm-3 control-label">Credits Assigned</label>
 
@@ -148,6 +161,7 @@
 		{% endfor %}
 	</div>
 </div>
+
 <div class="form-group">
 	<label class="col-sm-3 control-label">Address</label>
 

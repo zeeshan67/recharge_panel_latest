@@ -31,6 +31,8 @@ def add_user(request):
                 credit_result = get_user_credits(request.session['user_id'])
                 parent_user_credit_used = credit_result['credit_used']
                 parent_user_credit_available = credit_result['credit_available']
+                margin = credit_result['margin'] if credit_result['margin'] else 0.0
+                margin = float(margin)
                 print "CREDITS %s - %s"%(credit_available,parent_user_credit_available)
                 if float(credit_available) > float(parent_user_credit_available):
                     context_data['error'] = "true"
@@ -47,11 +49,12 @@ def add_user(request):
                                            credit_assigned=credit_assigned,
                                            credit_available=credit_available,
                                            credit_used=credit_used,
+                                           margin=request.POST['margin'],
                                            address=address)
                     user_data.save()
                     search_param = {"id": int(request.session['user_id'])}
                     CreateUser.objects.filter(**search_param).update(
-                                                                     credit_available=float(parent_user_credit_available)-float(credit_available),
+                                                                     credit_available=float(parent_user_credit_available)-float(credit_available)+(margin/100.00*float(credit_available)),
                                                                      credit_used=float(parent_user_credit_used)+float(credit_used),
                                                                      )
 

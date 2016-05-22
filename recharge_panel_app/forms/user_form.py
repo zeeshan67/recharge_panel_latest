@@ -23,6 +23,7 @@ class CreateUserForms(forms.Form):
     credit_assigned = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control', 'title': 'Float'}))
     credit_used = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control', 'title': 'Float'}))
     credit_available = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control', 'title': 'Float'}))
+    margin = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control', 'title': 'Float'}), required=True)
 
     def __init__(self, *args, **kwargs):
         user_role = kwargs.pop('user_role')

@@ -16,6 +16,7 @@ class CreateUser(models.Model):
     credit_used = models.FloatField()
     credit_available = models.FloatField()
     credit = models.FloatField()
+    margin = models.FloatField()
     parent_id = models.IntegerField()
 
     # def __repr__(self):
@@ -106,11 +107,11 @@ def verify_user(**kwargs):
 def get_user_credits(user_id):
     instance = Pool()
     cursor = instance.db
-    cursor.execute("select credit_used,credit_available from user_master where active=True and id=%s"%(user_id))
+    cursor.execute("select credit_used,credit_available,margin from user_master where active=True and id=%s"%(user_id))
     result = cursor.fetchall()
     for values in result:
         print values
-        return {"credit_used":values[0],"credit_available":values[1]}
+        return {"credit_used":values[0],"credit_available":values[1],"margin":values[2]}
     return {"credit_used":0,"credit_available":0}
 
 def check_user_exists(query_param):

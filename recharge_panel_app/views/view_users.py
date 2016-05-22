@@ -58,10 +58,10 @@ def get_user_data(request):
         user_data = {}
         for values in main_data:
                 #,
-
                 user_data = {"user_name":values.user_name,"email_id":values.email_id,"mobile_number":values.mobile_number,
                                  "credit_available":str(values.credit_available) if values.credit_available else 0,"credit_used":str(values.credit_used)
                     if values.credit_used else 0,"address":values.address,
+                                 "user_margin":str(values.margin),
                                  "credit_assigned":str(values.credit_assigned),"user_role":values.user_role,"user_id":values.id
                                   }
                 response = user_data
@@ -92,6 +92,8 @@ def edit_user_details(request):
             parent_user_credit_used = credit_result['credit_used']
             parent_user_credit_available = credit_result['credit_available']
             credit = request.POST.get('credit', 0)
+            margin = credit_result['margin'] if credit_result['margin'] else 0.0
+            margin = float(margin)
             print("change password ")
             print(credit,parent_user_credit_available)
             change_password = ''
@@ -103,17 +105,24 @@ def edit_user_details(request):
                     res = dict(status='false', msg="Change password and confirm change password should be same.")
                     return HttpResponse(json.dumps(res))
             credit = credit if credit else 0.0
+            deduct_credit = request.POST.get('deduct_credit', 0)
+            deduct_credit = float(deduct_credit) if deduct_credit else 0.0
             if  float(credit) > float(parent_user_credit_available):
                     message = "Don't have enough credits."
                     res = dict(status='false', msg="Don't have enough credits.")
+                    return HttpResponse(json.dumps(res))
+            if  deduct_credit and float(deduct_credit) > float(credit_available):
+                    message = "Don't have enough credits."
+                    res = dict(status='false', msg="Credits to be deducted cannot be greated than credits available.")
                     return HttpResponse(json.dumps(res))
             mobile_number = request.POST.get('mobile_number', None)
             search_param = {"id":int(request.POST.get("user_id",0))}
             update_dict = dict(user_name=user_name,email_id=email_id,
                                    mobile_number=mobile_number,
                                    credit_assigned=float(credit_assigned)+float(credit),
-                                   credit_available=float(credit_available)+float(credit),
-                                   credit_used=credit_used,
+                                   credit_available=float(credit_available)+float(credit)-deduct_credit,
+                                   credit_used=credit_used+deduct_credit,
+                                   margin=request.POST.get("user_margin",0.0),
                                    address=address)
             if change_password:
                 update_dict.update({"password":change_password})
@@ -121,7 +130,7 @@ def edit_user_details(request):
             if int(user_id) != int(request.session['user_id']):
                 search_param_parent = {"id": int(request.session['user_id'])}
                 CreateUser.objects.filter(**search_param_parent).update(
-                    credit_available=float(parent_user_credit_available) - float(credit),
+                    credit_available=float(parent_user_credit_available) - float(credit)+ (margin/100.00*float(credit)),
                     credit_used=float(parent_user_credit_used) + float(credit),
                 )
 
