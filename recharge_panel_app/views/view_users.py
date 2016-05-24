@@ -85,9 +85,9 @@ def edit_user_details(request):
             user_name = request.POST.get('user_name', None)
             email_id = request.POST.get('email_id', None)
             address = request.POST.get('address', None)
-            credit_assigned = request.POST.get('credit_assigned', None)
-            credit_available = request.POST.get('credit_available', None)
-            credit_used = request.POST.get('credit_used', None)
+            credit_assigned = request.POST.get('credit_assigned', 0.0)
+            credit_available = request.POST.get('credit_available', 0.0)
+            credit_used = request.POST.get('credit_used', 0.0)
             credit_result = get_user_credits(request.session['user_id'])
             parent_user_credit_used = credit_result['credit_used']
             parent_user_credit_available = credit_result['credit_available']
@@ -107,7 +107,7 @@ def edit_user_details(request):
             credit = credit if credit else 0.0
             deduct_credit = request.POST.get('deduct_credit', 0)
             deduct_credit = float(deduct_credit) if deduct_credit else 0.0
-            if  float(credit) > float(parent_user_credit_available):
+            if credit and float(credit) > float(parent_user_credit_available):
                     message = "Don't have enough credits."
                     res = dict(status='false', msg="Don't have enough credits.")
                     return HttpResponse(json.dumps(res))
@@ -117,6 +117,9 @@ def edit_user_details(request):
                     return HttpResponse(json.dumps(res))
             mobile_number = request.POST.get('mobile_number', None)
             search_param = {"id":int(request.POST.get("user_id",0))}
+            credit_available = float(credit_available)
+            credit_used = float(credit_used)
+            credit_assigned = float(credit_assigned)
             update_dict = dict(user_name=user_name,email_id=email_id,
                                    mobile_number=mobile_number,
                                    credit_assigned=float(credit_assigned)+float(credit),
