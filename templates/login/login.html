@@ -1,125 +1,93 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
-	<head>
-		<title>Happy Pocket - Login</title>
-
-		<!-- BEGIN META -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="keywords" content="your,keywords">
-		<meta name="description" content="Short explanation about this website">
-		<!-- END META -->
-
-		<!-- BEGIN STYLESHEETS -->
-{#		<link href='http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,300,400,500,700,900' rel='stylesheet' type='text/css'/>#}
-		<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-		<link type="text/css" rel="stylesheet" href="{% static 'css/materialadmin.css' %}" />
-		<link type="text/css" rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
-		<link type="text/css" rel="stylesheet" href="{% static 'css/material-design-iconic-font.min.css' %}" />
-		<!-- END STYLESHEETS -->
-
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		<script type="text/javascript" src="{% static 'js/html5shiv.js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/respond.min.js' %}"></script>
-		<![endif]-->
-	</head>
-	<body class="menubar-hoverable header-fixed ">
-
-		<!-- BEGIN LOGIN SECTION -->
-		<section class="section-account">
-			<div class="img-backdrop" style="background-image: url('{% static 'images/banner7.jpg' %}')">
-                <h3 style="font-family: 'Varela Round', sans-serif;color:#fff;font-size:52px;	text-align:center;line-height:1.4em;
-text-transform:uppercase;	">Get Free Credits and Discounts on Top Brands With Every Recharge.</h3>
-			</div>
-			<div class="spacer"></div>
-			<div class="card contain-sm style-transparent">
-				<div class="card-body">
-
-					<div class="row">
-						<div class="col-sm-6">
-                            <div class="panel-danger hidden">
-                              <div class="alert alert-danger fade in">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                <p>Please check your username and password</p>
-                              </div>
-                            </div>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Happy pocket</title>
 
 
-							<form class="form floating-label" action="/" accept-charset="utf-8" method="post">
-								<div class="form-group">
-									<input type="text" class="form-control" id="username" name="username">
-									<label for="username">Username</label>
-								</div>
-								<div class="form-group">
-									<input type="password" class="form-control" id="password" name="password">
-									<label for="password">Password</label>
-									<p class="help-block"><a href="#">Forgotten?</a></p>
-								</div>
-								<br/>
-								<div class="row">
-									<div class="col-xs-6 text-left">
-										<div class="checkbox checkbox-inline checkbox-styled">
-											<label>
-												<input type="checkbox"> <span>Remember me</span>
-											</label>
-										</div>
-									</div><!--end .col -->
-									<div class="col-xs-6 text-right">
-										<button class="btn btn-primary btn-raised" type="submit">Login</button>
-									</div><!--end .col -->
-								</div><!--end .row -->
-							</form>
-						</div><!--end .col -->
-						<div class="col-sm-5 col-sm-offset-1 text-center">
-							<br><br>
-								<h3 class="text-light">
-									No account yet?
-								</h3>
-								<a class="btn btn-block btn-raised btn-primary" href="#">Sign up here</a>
-								<br><br>
-{#									<h3 class="text-light">#}
-{#										or#}
-{#									</h3>#}
-									<p>
-{#                                          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-block btn-raised btn-info"><i class="fa fa-facebook pull-left"></i>Login with Gmail</a>#}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/form-elements.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}" type="text/css"/>
+  </head>
 
-									</p>
-									<p>
-{#										<a href="#" class="btn btn-block btn-raised btn-info"><i class="fa fa-twitter pull-left"></i>Login with Twitter</a>#}
-									</p>
-								</div><!--end .col -->
-							</div><!--end .row -->
-						</div><!--end .card-body -->
-					</div><!--end .card -->
-				</section>
-				<!-- END LOGIN SECTION -->
+  <body>
 
-				<!-- BEGIN JAVASCRIPT -->
-				<script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
-{#				<script src="{% static '/js/libs/jquery/jquery-migrate-1.2.1.min.js' %}"></script>#}
-				<script src="{% static 'js/bootstrap.min.js' %}"></script>
-                <script src="{% static 'js/spin.min.js' %}"></script>
-                <script src="{% static 'js/jquery.autosize.min.js' %}"></script>
-                <script src="{% static 'js/jquery.nanoscroller.min.js' %}"></script>
 
-				<script src="{% static 'js/core/source/App.js' %}"></script>
-				<script src="{% static 'js/core/source/AppNavigation.js' %}"></script>
-				<script src="{% static 'js/core/source/AppOffcanvas.js' %}"></script>
-				<script src="{% static 'js/core/source/AppCard.js' %}"></script>
-				<script src="{% static 'js/core/source/AppForm.js' %}"></script>
-				<script src="{% static 'js/core/source/AppNavSearch.js' %}"></script>
-				<script src="{% static 'js/core/source/AppVendor.js' %}"></script>
-				<script src="{% static 'js/core/demo/Demo.js' %}"></script>
-				<!-- END JAVASCRIPT -->
-            <script>
-                    $(document).ready(function () {
-                            error ={{ error }}
-                            if (error) {
-                                $(".panel-danger").removeClass('hidden')
-                            }
-                        });
-            </script>
-			</body>
-		</html>
+<!-- Mixins-->
+<!-- Pen Title-->
+<div class="pen-title">
+  <h1>Welcome to Happy Pocket</h1>
+</div>
+<div class="container">
+  <div class="card"></div>
+  <div class="card">
+    <div class="panel-danger hidden">
+      <div class="alert alert-danger fade in">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <p>Please check your username and password</p>
+      </div>
+    </div>
+    <h1 class="title">Login</h1>
+    <form role="form"  method="post">
+      {% csrf_token %}
+      <div class="input-container">
+        <input type="text" id="username" name="username" required="required"/>
+        <label for="username">Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password" id="password"  name="password" required="required"/>
+        <label for="password">Password</label>
+        <div class="bar"></div>
+      </div>
+        <div class="button-container">
+          <button type="submit"><span>Go</span></button>
+        </div>
+      <div class="footer"><a href="#">Forgot your password?</a></div>
+    </form>
+  </div>
+  <!--<div class="card alt">-->
+    <!--<div class="toggle"></div>-->
+    <!--<h1 class="title">Register-->
+      <!--<div class="close"></div>-->
+    <!--</h1>-->
+    <!--<form>-->
+      <!--<div class="input-container">-->
+        <!--<input type="text" id="Username" required="required"/>-->
+        <!--<label for="Username">Username</label>-->
+        <!--<div class="bar"></div>-->
+      <!--</div>-->
+      <!--<div class="input-container">-->
+        <!--<input type="password" id="Password" required="required"/>-->
+        <!--<label for="Password">Password</label>-->
+        <!--<div class="bar"></div>-->
+      <!--</div>-->
+      <!--<div class="input-container">-->
+        <!--<input type="password" id="Repeat Password" required="required"/>-->
+        <!--<label for="Repeat Password">Repeat Password</label>-->
+        <!--<div class="bar"></div>-->
+      <!--</div>-->
+      <!--<div class="button-container">-->
+        <!--<button><span>Next</span></button>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</div>-->
+</div>
+  <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+  <script src="{% static 'js/index.js' %}"></script>
+  <script src="{% static 'js/scripts.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+        error ={{ error }}
+        if (error) {
+            $(".panel-danger").removeClass('hidden')
+        }
+    });
+  </script>
+  </body>
+</html>
