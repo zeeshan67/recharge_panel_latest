@@ -11,15 +11,16 @@ import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from recharge_panel_app.models import verify_user
+from recharge_panel_templates.config import operator_code_dict,post_url
+
 # from recharge_panel.config import logging
-import traceback
+import traceback,json
 
 # Create your views here.
 
 
 @csrf_exempt
 def login(request):
-
     format = "%a %b %d %H:%M:%S %Y"
     today = datetime.datetime.now()
     login_date = today.strftime(format)
@@ -82,7 +83,63 @@ def login(request):
         # script_log.error("Error"+str(traceback.format_exc()))
         return render(request,'login/login.html')
 
+@csrf_exempt
+def mobile_app_authenticate(request):
+    if request.method == "POST":
+        username = request.POST.get("username",None)
+        password = request.POST.get("password",None)
+        username = username.strip(' ')
+        password = password.strip(' ')
+        password = hashlib.md5(request.POST['password']).hexdigest()
+        user_params = {"username":username,"password":password}
+        verification_result = verify_user(**user_params)
+        if verification_result['is_verified']:
+            print(verification_result['credit_used'])
+            print(verification_result['credit_available'])
+            response ={"code":200,"msg":"Login Successful","user_id":verification_result["user_id"]}
+            return HttpResponse(json.dumps(response))
+    response = response ={"code":401,"msg":"Invalid Credentials"}
+    return  HttpResponse(json.dumps(response))
 
+
+@csrf_exempt
+def create_mobile_recharge(request):
+    if request.method == "POST":
+        username = request.POST.get("username",None)
+        password = request.POST.get("password",None)
+        mobile_number = request.POST.get('mobile_number')
+        username = username.strip(' ')
+        password = password.strip(' ')
+        password = hashlib.md5(request.POST['password']).hexdigest()
+        user_params = {"username":username,"password":password}
+        circle = request.POST.get("circle",None)
+        operator_code = request.POST.get("operator_code","")
+        recharge_type = request.POST.get("recharge_type","prepaid")
+        user_id = request.POST.get("user_id",None)
+        verification_result = verify_user(**user_params)
+        if verification_result['is_verified']:
+            amount = request.POST.get("amount",None)
+            context_data = {"code":200}
+            if float(amount) <= float(verification_result['credit_available']):
+                    api_params = {"mobile_number":mobile_number,"circle":circle,"recharge_type":recharge_type,
+                                  "amount":amount,"operator_code":operator_code,
+                                  "username":username,"user_id":user_id,"credit_available":verification_result['credit_available'],"credit_used":verification_result['credit_used']
+                                  }
+                    try:
+                        response = requests.post(post_url, json=api_params)
+                        print response.text
+                        api_response = eval(str(response.text))
+                        return  HttpResponse(json.dumps(api_response))
+                    except Exception as exc:
+                        print "eror %s"%exc.message
+                        context_data.update({'recharge_status':"FAILED","remark":"Error while doing recharge,please contact admin.","request_id":""})
+                        return  HttpResponse(json.dumps(context_data))
+            else:
+                context_data.update({'success':0})
+                context_data.update({'msg':"Don't have enough credits."})
+                return  HttpResponse(json.dumps(context_data))
+    response = response ={"status_code":401,"msg":"Invalid Credentials"}
+    return  HttpResponse(json.dumps(response))
 
 def index(request):
     request.session.set_expiry(3600)

@@ -21,6 +21,8 @@ from recharge_panel_app.views import views,create_campaign,dashboard,reports
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',views.login, name='views.login'),
+    url(r'^mobile_apps/authenticate$',views.mobile_app_authenticate, name='views.mobile_app_authenticate'),
+    url(r'^mobile_apps/create_mobile_recharge',views.create_mobile_recharge, name='views.create_mobile_recharge'),
     url(r'^dashboard/$', dashboard.index, name='dashboard.index'),
     url(r'^logout/$', views.logout, name='view.logout'),
     url(r'^login/$', views.login, name='view.login'),
