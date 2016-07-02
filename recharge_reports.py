@@ -84,6 +84,7 @@ if __name__  == "__main__":
     email_to = ['patelzeeshan67@gmail.com','krnsyal147@gmail.com']
     files = []
     files.append(filename)
+    files.append("/var/log/node_apps/recharge_api.%s"%prevday)
     subject = "Happy Pocket Recharge Report %s"%prevday
     text = "Please find attachment of recharge report for date %s"%prevday
     send_mail("Zeeshan Patel",email_to,subject,text,files,username=username,password=password)
