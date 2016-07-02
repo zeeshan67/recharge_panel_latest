@@ -53,7 +53,7 @@ def get_recharge_reports(start_date,end_date):
     # base_path = base_path.rsplit('/', 1)[0]
     real_filename = '%s_%s.csv' % ('reports', int(time.time()))
     # real_filename = request.POST.get('file_name',False)
-    filename = '%s/public/csv_report/%s' % (base_path, real_filename)
+    filename = '/var/www/html/recharge_panel_latest/public/csv_report/%s' % ( real_filename)
 
     with open(filename, 'wb') as csvfile:
         fieldnames = ('mobile_number', 'request_id', 'circle', 'operator', 'date_time', 'recharge_status', 'remark',
