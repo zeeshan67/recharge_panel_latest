@@ -47,6 +47,8 @@ def get_recharge_reports(start_date,end_date):
                            "recharge_status": list_value[5], "remark": list_value[6],
                            "balance": str(list_value[7]), "amount": list_value[8]})
 
+    if not final_data:
+        return None
     base_path = os.path.dirname(os.path.dirname(__file__))
 
     # base_path = base_path.rsplit('/', 1)[0]
@@ -74,6 +76,8 @@ if __name__  == "__main__":
     end_date = "%s 23:59:59"%start_date
     start_date = "%s 00:00:00"%start_date
     filename = get_recharge_reports(start_date,end_date)
+    if not filename:
+        exit()
     username = "noreply@happypocket.in"
     password = "noreply@321"
     email_to = ['patelzeeshan67@gmail.com','krnsyal147@gmail.com']
