@@ -30,7 +30,7 @@ def send_mail( send_from, send_to, subject, text, files=[], server="localhost", 
 
 def get_recharge_reports(start_date,end_date):
     sql_query = "select mobile_number,request_id,circle,operator_code,date_time ::timestamp AT TIME ZONE 'Asia/Kolkata',recharge_status,remark,balance,amount from recharge_reports where " \
-                "date_time between %s and %s "%(start_date,end_date);
+                "date_time between '%s' and '%s' "%(start_date,end_date);
     instance = Pool()
     print instance
     cursor = instance.db
