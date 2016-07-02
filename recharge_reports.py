@@ -21,7 +21,7 @@ def send_mail( send_from, send_to, subject, text, files=[], server="localhost", 
         part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(os.path.basename(f)))
         msg.attach(part)
 
-    smtp = smtplib.SMTP(server, port)
+    smtp = smtplib.SMTP('smtp.gmail.com')
     if isTls: smtp.starttls()
     smtp.login(username,password)
     smtp.sendmail(send_from, send_to, msg.as_string())
