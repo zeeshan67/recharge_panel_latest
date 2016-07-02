@@ -73,7 +73,7 @@ def get_recharge_reports(start_date,end_date):
 if __name__  == "__main__":
 
     start_date = datetime.datetime.today().date()
-    prevday = datetime.strptime(str(start_date), '%Y-%m-%d').date() + datetime.timedelta(days=-1)
+    prevday = datetime.datetime.strptime(str(start_date), '%Y-%m-%d').date() + datetime.timedelta(days=-1)
     end_date = "%s 23:59:59"%prevday
     start_date = "%s 00:00:00"%prevday
     filename = get_recharge_reports(start_date,end_date)
