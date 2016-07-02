@@ -73,16 +73,17 @@ def get_recharge_reports(start_date,end_date):
 if __name__  == "__main__":
 
     start_date = datetime.datetime.today().date()
-    end_date = "%s 23:59:59"%start_date
-    start_date = "%s 00:00:00"%start_date
+    prevday = datetime.strptime(str(start_date), '%Y-%m-%d').date() + datetime.timedelta(days=-1)
+    end_date = "%s 23:59:59"%prevday
+    start_date = "%s 00:00:00"%prevday
     filename = get_recharge_reports(start_date,end_date)
     if not filename:
         exit()
-    username = "noreply@happypocket.in"
-    password = "noreply@321"
+    username = "happypocket.recharge@gmail.com"
+    password = "happypocket@123"
     email_to = ['patelzeeshan67@gmail.com','krnsyal147@gmail.com']
     files = []
     files.append(filename)
-    subject = "Happy Pocket Recharge Report %s"%start_date
-    text = "Please find attachment of recharge report for date %s"%start_date
+    subject = "Happy Pocket Recharge Report %s"%prevday
+    text = "Please find attachment of recharge report for date %s"%prevday
     send_mail("Zeeshan Patel",email_to,subject,text,files,username=username,password=password)
