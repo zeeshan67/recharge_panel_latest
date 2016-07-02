@@ -12,7 +12,6 @@ def send_mail( send_from, send_to, subject, text, files=[], server="localhost", 
     msg['To'] = COMMASPACE.join(send_to)
     msg['Date'] = formatdate(localtime = True)
     msg['Subject'] = subject
-
     msg.attach( MIMEText(text) )
 
     for f in files:
@@ -82,4 +81,4 @@ if __name__  == "__main__":
     files.append(filename)
     subject = "Happy Pocket Recharge Report %s"%start_date
     text = "Please find attachment of recharge report for date %s"%start_date
-    send_mail("Zeeshan Patel",email_to,text,files,username=username,password=password)
+    send_mail("Zeeshan Patel",email_to,subject,text,files,username=username,password=password)
